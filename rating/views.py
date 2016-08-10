@@ -16,7 +16,6 @@ def rating(request):
     return render(request, 'rating/rating.html', context)
 
 def athlete_routes(request, username):
-    #user = get_object_or_404(User, username=username)
     athlete = get_object_or_404(Athlete_Info, athlete__username=username)
     routes = Athlete_Route.objects.filter(athlete__username=username)
     context = {'routes': routes, 'athlete': athlete}
@@ -40,7 +39,7 @@ def add_route(request):
 
 def register_user(request):
     if request.method == 'POST':
-        form = RegisterForm(request.POST)     # create form object
+        form = RegisterForm(request.POST)
         if form.is_valid():
             register = form.save(commit=False)
             register.save()
@@ -73,7 +72,6 @@ def new_route(request):
 def route_list(request):
     routes = Route.objects.all()
     comments = Athlete_Route.objects.order_by('-date')
-    #routes = tmp_routes.order_by('-date')
     context = {'routes': routes, 'comments': comments}
     return render(request, 'rating/route_list.html', context)
 

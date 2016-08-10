@@ -15,7 +15,6 @@ class Route_Admin(admin.ModelAdmin):
     list_editable = ('is_active',)
     list_order_by = ('-created',)
     search_fields = ['name', 'description']
-    #list_filter = ('created__year',)
 
 class Athlete_Route_Admin(admin.ModelAdmin):
     list_display = ('athlete', 'route', 'grade', 'remark', 'date')
@@ -34,5 +33,3 @@ admin.site.register(Grade)
 admin.site.register(Remark)
 admin.site.register(Athlete_Route, Athlete_Route_Admin)
 admin.site.register(Season, Season_Admin)
-
-# Register your models here.

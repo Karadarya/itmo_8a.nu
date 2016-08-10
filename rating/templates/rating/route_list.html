@@ -11,8 +11,7 @@
 {% block content %}
 <a href="{% url "new_route" %}"><button type="button" class="btn btn-link">+ добавить трассу</button></a>
 <ul class="list-unstyled">
-  <!--{% regroup comment by route as route_commments%}-->
-
+  
   {% for route in routes %}
     <li class="well well-sm">{% include "rating/route_list_route.html" %}</li>
   {% empty %}

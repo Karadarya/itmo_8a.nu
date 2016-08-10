@@ -1,8 +1,6 @@
 {% extends "athlete.html" %}
 
 {% block content %}
-<!--add info-->
-
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="{% url "athlete_profile" username=athlete.athlete.username%}">Профиль</a></li>
     <li role="presentation" ><a href="{% url "athlete_routes" username=athlete.athlete.username %}">Трассы TOP</a></li>

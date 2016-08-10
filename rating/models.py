@@ -31,10 +31,8 @@ class Route(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='активна')
     def __unicode__(self) :
         return self.name
-    """def avg_grade(self):
-        grade=Athlete_Route.objects.filter(route.name=route).aggregate(average_grade=AVG('grade'))
-        to be continued"""
 
+    
 class Grade(models.Model):
     class Meta:
         verbose_name='категория'
@@ -86,4 +84,3 @@ class Season(models.Model):
         verbose_name_plural='сезоны'
         ordering = ['-started']
         unique_together = ("started", "finished")
-# Create your models here.
