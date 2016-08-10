@@ -1,0 +1,50 @@
+<a class="lead"><b>{{ route.name }}</b></a>
+<small>({% if route.author.last_name %}
+  {{ route.author.last_name }} {{ route.author.first_name }}
+{% else %}
+  {{ route.author.username }}
+{% endif %}
+ {{ route.created|date:"SHORT_DATE_FORMAT" }})
+</small>
+{% if route.description%}
+  <br><span style="margin-left:2em">{{ route.description|linebreaksbr }}</span>
+{% endif %}
+
+<br><h4>Последние пролазы:</h4>
+  {% for c in comments %}
+      {% if c.route == route %}
+        <p style="margin-left:2em"><big><a href="{% url "athlete_routes" username=c.athlete.username %}">
+          {% if c.athlete.last_name %}
+            {{ c.athlete.last_name }} {{ c.athlete.first_name }}
+          {% else %}
+            {{ c.athlete.username }}
+          {% endif %}
+          </a>
+          <span class="label label-primary">{{ c.grade.grade }}</span>
+          <span class="label label-default">{{ c.remark.remark }}</span></big>
+          {% if c.comment %}
+            : {{ c.comment|linebreaksbr }}
+          {% endif %}
+        </p>
+
+      {% endif %}
+    {% endfor%}
+
+
+  <!--<b>Постановщик:</b> <a href="">{{ route.author }}</a>
+   {{ route.created|date:"SHORT_DATE_FORMAT" }}-->
+
+<!--<div class="col-lg-4">
+  <h3>
+    <span class="label label-primary">{{ route.grade.grade }}</span>
+    <span class="label label-default">{{ route.remark.remark }}</span>
+    <small>{{ route.date|date:"SHORT_DATE_FORMAT" }}</small>
+    <br>
+  </h3>
+
+    {% if route.comment %}
+    <br>
+        <p><b>Комментарий: </b>{{ route.comment|linebreaksbr }}</p>
+    {% endif %}
+
+</div>-->

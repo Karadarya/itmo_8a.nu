@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  Добавить ТОП
+{% endblock %}
+
+{% block heading %}
+  <h2>
+    Добавить ТОP
+  </h2>
+{% endblock %}
+
+{% block content %}
+  {% url "add_route" as action_url %}
+  <form action="{{ action_url }}" method="post" accept-charset="utf-8">
+    {{ form|crispy }}
+    {% csrf_token %}
+    <p><input type="submit" class="btn btn-default" value="Сохранить"></p>
+  </form>
+{% endblock %}

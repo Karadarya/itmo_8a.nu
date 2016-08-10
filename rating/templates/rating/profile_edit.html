@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  Редактирование профиля
+{% endblock %}
+
+{% block heading %}
+  <h2>
+    Добавьте информацию о себе
+  </h2>
+{% endblock %}
+
+{% block content %}
+  <!{% url "register_user" as action_url %}>
+  <form action="{% url "profile_edit" username=user.username %}" method="post" accept-charset="utf-8">
+    {{ form|crispy }}
+    {% csrf_token %}
+    <p><input type="submit" class="btn btn-default" value="Сохранить"></p>
+  </form>
+{% endblock %}

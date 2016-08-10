@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Рейтинг{% endblock %}
+
+{% block heading %}
+  <h2>Рейтинг</h2>
+{% endblock %}
+
+{% block content %}
+  <!--<ul class="list-unstyled">
+    {% for post in posts %}
+      <li class="well well-sm">{% include "myapp/post.html" %}</li>
+    {% empty %}
+      <li>No posts. </li>
+    {% endfor %}
+  </ul>-->
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Место</th>
+          <th>Спортсмен</th>
+          <th>Баллы</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for athlete in athletes %}
+        <tr>
+          <td>{{ athlete.position }}</td>
+          <td><a href="{% url "athlete_routes" username=athlete.athlete.username %}">
+            {% if athlete.athlete.last_name %}
+              {{ athlete.athlete.last_name }} {{ athlete.athlete.first_name }}</a></td>
+            {% else %}
+              {{ athlete.athlete.username }}
+            {% endif %}
+          <td>{{ athlete.score|floatformat }}</td>
+        </tr>
+        {% empty %}
+          <!--add something-->
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

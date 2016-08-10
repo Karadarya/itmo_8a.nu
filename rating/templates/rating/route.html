@@ -1,0 +1,15 @@
+<a class="lead" href="">{{ route.route.name }}</a>
+{% if route.route.description%}
+  <br>{{ route.route.description|linebreaksbr }}
+{% endif %}
+
+<h3>
+  <span class="label label-primary">{{ route.grade.grade }}</span>
+  <span class="label label-default">{{ route.remark.remark }}</span>
+  <small>{{ route.date|date:"SHORT_DATE_FORMAT" }}</small>
+  <br>
+</h3>
+  {% if route.comment %}
+  <br>
+      <p><b>Комментарий:</b> {{ route.comment|linebreaksbr }}</p>
+  {% endif %}

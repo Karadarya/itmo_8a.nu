@@ -1,0 +1,24 @@
+{% extends "athlete.html" %}
+
+{% block content %}
+<!--add info-->
+
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" ><a href="{% url "athlete_profile" username=athlete.athlete.username%}">Профиль</a></li>
+    <li role="presentation" class="active"><a href="{% url "athlete_routes" username=athlete.athlete.username %}">Трассы TOP</a></li>
+    {% if user == athlete.athlete %}
+      <a href="{% url "add_route" %}"><button style="float:right" type="button" class="btn btn-success">Добавить TOP</button></a>
+    {% endif %}
+</ul>
+
+
+<br>
+<ul class="list-unstyled">
+  {% for route in routes %}
+    <li class="well well-sm">{% include "rating/route.html" %}</li>
+  {% empty %}
+    <li>Трасс пока нет :C </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
