@@ -16,6 +16,8 @@ class Athlete_Info(models.Model):
     position = models.PositiveIntegerField(verbose_name='место')
     def __unicode__(self):
         return self.athlete.username
+    def __str__(self):
+        return self.athlete.username
 
 
 
@@ -31,16 +33,19 @@ class Route(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='активна')
     def __unicode__(self) :
         return self.name
+    def __str__(self) :
+        return self.name
 
-    
 class Grade(models.Model):
     class Meta:
         verbose_name='категория'
-        verbose_name_plural='категория'
+        verbose_name_plural='категории'
         ordering = ['grade']
     grade = models.CharField(max_length=50, verbose_name='категория')
     cost = models.SmallIntegerField(verbose_name='стоимость')
     def __unicode__(self):
+        return self.grade
+    def __str__(self):
         return self.grade
 
 
@@ -53,6 +58,9 @@ class Remark(models.Model):
     cost = models.SmallIntegerField(verbose_name='стоимость')
     def __unicode__(self):
         return self.remark
+    def __str__(self):
+        return self.remark
+
 
 class Athlete_Route(models.Model):
     athlete = models.ForeignKey(User, verbose_name='спортсмен')
@@ -62,6 +70,8 @@ class Athlete_Route(models.Model):
     date = models.DateTimeField(default=timezone.now, verbose_name='дата')
     comment = models.TextField(blank=True, verbose_name='комментарий')
     def __unicode__(self):
+        return "%s - %s" %(self.athlete.username, self.route.name)
+    def __str__(self):
         return "%s - %s" %(self.athlete.username, self.route.name)
     class Meta:
         verbose_name='спортсмен_трасса'
@@ -74,6 +84,12 @@ class Season(models.Model):
     started = models.DateField(default=timezone.now, verbose_name='начало')
     current = models.BooleanField(default=True, verbose_name='текущий')
     finished = models.DateField(null=True, blank=True, verbose_name='конец')
+
+    def __str__(self):
+        if self.finished:
+            return "%s %s - %s %s" %(self.started.month, self.started.year, self.finished.month, self.finished.year)
+        else:
+            return "%s %s - now" %(self.started.month, self.started.year)
     def __unicode__(self):
         if self.finished:
             return "%s %s - %s %s" %(self.started.month, self.started.year, self.finished.month, self.finished.year)
