@@ -15,15 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib import auth
 from django.core.urlresolvers import reverse_lazy
 from rating import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^rating/', include('rating.urls')),
-    url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'},
+    url(r'^login/$', auth.views.login, {'template_name': 'login.html'},
         name='itmo_climbing_login'),
-    url(r'^logout/$', 'django.contrib.auth.views.logout',
+    url(r'^logout/$', auth.views.logout,
         {'next_page': reverse_lazy('rating')}, name='itmo_climbing_logout'),
     url(r'^$', views.rating, name='rating'),
 ]
