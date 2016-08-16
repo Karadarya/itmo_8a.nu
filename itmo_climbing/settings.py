@@ -25,7 +25,7 @@ SECRET_KEY = 'szlhn(u102(st1-c(xn+mnt8czblzn#%kyool$+4d5tu(=fld1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
