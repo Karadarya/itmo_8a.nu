@@ -26,5 +26,5 @@ urlpatterns = [
         name='itmo_climbing_login'),
     url(r'^logout/$', logout,
         {'next_page': reverse_lazy('rating')}, name='itmo_climbing_logout'),
-    url(r'^$', views.rating, name='rating'),
+    url(r'^$', views.welcome, name='welcome'),
 ]

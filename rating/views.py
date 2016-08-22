@@ -9,6 +9,9 @@ from django.contrib.auth import login, authenticate
 from .models import Athlete_Info, Athlete_Route, Route
 from .forms import Athlete_Route_Form, RegisterForm, Route_Form, ProfileForm
 
+def welcome(request):
+    context = {}
+    return render(request, 'welcome.html', context)
 
 def rating(request):
     athletes = Athlete_Info.objects.order_by('position')

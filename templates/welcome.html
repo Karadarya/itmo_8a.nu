@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}
+  Добро пожаловать
+{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <!--<div class="navbar-header">
+      <a class="navbar-brand" href="{% url "rating" %}">ITMO 8a.nu</a>
+    </div>-->
+
+
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-left">
+        <li><a href="{% url "rating" %}">Рейтинг</a></li>
+        <li><a href="{% url "route_list" %}">Трассы сезона</a></li>
+
+      </ul>
+    </div><!--/.navbar-collapse -->
+  </div>
+</nav>
+{% endblock %}
+  {% block jumbotron %}
+  <div class="jumbotron">
+    <div class="container">
+      <div class="row">
+        <div class="сol-lg-7 col-md-7 col-sm-12 col-xs-12">
+            <br>
+            <br>
+            <br>
+            <div class="visible-md-block visible-lg-block">
+              <h1>ITMO 8a.nu</h1>
+              <p>some description</p>
+          </div>
+        </div>
+        <div class="сol-lg-3 col-md-3 col-sm-8 col-xs-12">
+          <p style="padding-top: 370px">
+          <form role="form" action="{% url "itmo_climbing_login" %}"
+              method="post" accept-charset="utf-8">
+            <div class="form-group">
+              <input type="text" placeholder="Логин" class="form-control" name="username">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Пароль" class="form-control" name="password">
+            </div>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Войти</button>
+            <a href="{% url "register_user" %}"><button class="btn btn-link">Регистрация</button></a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
