@@ -11,7 +11,11 @@ from .forms import Athlete_Route_Form, RegisterForm, Route_Form, ProfileForm
 
 def welcome(request):
     context = {}
-    return render(request, 'welcome.html', context)
+    if not request.user.is_active:
+        return render(request, 'welcome.html', context)
+    else :
+        return redirect('athlete_routes',
+            username=request.user.username)
 
 def rating(request):
     athletes = Athlete_Info.objects.order_by('position')
