@@ -21,7 +21,7 @@ class Athlete_Route_Admin(admin.ModelAdmin):
     list_order_by = ('-date',)
     search_fields = ['athlete', 'route']
     list_filter = ('route', 'athlete',)
-    readonly_fields = ('athlete', 'route', 'grade', 'remark', 'date', 'comment')
+    readonly_fields = ()
 
 class Season_Admin(admin.ModelAdmin):
     list_display = ('started', 'finished', 'current')

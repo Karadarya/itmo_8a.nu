@@ -7,20 +7,29 @@ from rating.models import Athlete_Info, Athlete_Route
 
 def rating_update(ath, way):
     init_pos = Athlete_Info.objects.values_list('position', flat=True).get(athlete=ath)
-    self_score = Athlete_Info.objects.values_list('score', flat=True).get(position=init_pos)
+    self_score = Athlete_Info.objects.values_list('score', flat=True).get(athlete=ath)
     if (way=="up")&(init_pos!=1):
-        upper_score = Athlete_Info.objects.values_list('score', flat=True).get(position=init_pos-1)
-        if (self_score<=upper_score): return
-        if (self_score>upper_score):
-            while(self_score>upper_score):
+        """check if there were equals"""
+        if Athlete_Info.objects.filter(position=init_pos).count()>1 :
+            aths_down = Athlete_Info.objects.filter(position__gte=init_pos).exclude(athlete=ath)
+            aths_down.update(position=F('position')+1)
+        upper_score = Athlete_Info.objects.values('score').filter(position=init_pos-1)[0]['score']
+        if (self_score<upper_score): return
+        while(self_score>upper_score)|(self_score==upper_score):
+            if (self_score>upper_score):
                 ath_up = Athlete_Info.objects.filter(athlete=ath)
-                ath_down = Athlete_Info.objects.filter(position=init_pos-1)
+                aths_down = Athlete_Info.objects.filter(position=init_pos-1)
+                aths_down.update(position=F('position')+1)
                 ath_up.update(position=F('position')-1)
-                ath_down.update(position=F('position')+1)
                 init_pos-=1
                 if init_pos==1 : break
-                upper_score = Athlete_Info.objects.values_list('score', flat=True).get(position=init_pos-1)
-            Athlete_Info.objects.filter(athlete=ath).update(position=F('position')-1)
+                upper_score = Athlete_Info.objects.values('score').filter(position=init_pos-1)[0]['score']
+            if (self_score==upper_score):
+                aths_up = Athlete_Info.objects.filter(position__gte=init_pos)
+                aths_up.update(position=F('position')-1)
+                return
+
+            #Athlete_Info.objects.filter(athlete=ath).update(position=F('position')-1)
 
     if (way=="down")&(init_pos!=Athlete_Info.objects.count()):
         lower_score = Athlete_Info.objects.values_list('score', flat=True).get(position=init_pos+1)
