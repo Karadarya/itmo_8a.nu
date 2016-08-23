@@ -1,5 +1,5 @@
 from django.db.models.signals import post_save, post_delete, pre_save
-from django.db.models import F
+from django.db.models import F, Max
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from rating.models import Athlete_Info, Athlete_Route
@@ -29,16 +29,19 @@ def rating_update(ath, way):
                 aths_up.update(position=F('position')-1)
                 return
 
-            #Athlete_Info.objects.filter(athlete=ath).update(position=F('position')-1)
-
-    #works incorrectly. remake!
+    #seems to work.  testing will show
     if (way=="down")& Athlete_Info.objects.filter(position=init_pos+1).exists():
-        """if Athlete_Info.objects.filter(position=init_pos).count()>1 :
-            aths_down = Athlete_Info.objects.filter(position__gt=init_pos)
-            aths_down.update(position=F('position')+1)
-            Athlete_Info.objects.filter(athlete=ath).update(position=F('position')+1)
-        lower_score = Athlete_Info.objects.values('score').filter(position=init_pos+1)[0]['score']
-        if (self_score>lower_score): return
+        #it works, but I dunno why -_-"
+        if Athlete_Info.objects.filter(position=init_pos).count()>1 :
+            dic=Athlete_Info.objects.aggregate(Max('position'))
+            self_pos=dic['position__max']
+            while self_pos>=init_pos:
+                aths_down=Athlete_Info.objects.filter(position=self_pos)
+                aths_down.update(position=F('position')+1)
+                self_pos-=1
+        if Athlete_Info.objects.filter(position=init_pos+1).exists():
+            lower_score = Athlete_Info.objects.values('score').filter(position=init_pos+1)[0]['score']
+        else: return
         while(self_score<lower_score)|(self_score==lower_score):
             if (self_score<lower_score):
                 ath_down = Athlete_Info.objects.filter(athlete=ath)
@@ -50,36 +53,9 @@ def rating_update(ath, way):
                     lower_score = Athlete_Info.objects.values('score').filter(position=init_pos+1)[0]['score']
                 else : break
             if (self_score==lower_score):
-                aths_down = Athlete_Info.objects.filter(position__gte=init_pos).exclude(athlete=ath)
-                aths_down.update(position=F('position')-1)
-                #Athlete_Info.objects.all().update((position=F('position')-1))
-                    return"""
-        if Athlete_Info.objects.filter(position=init_pos).count()>1 :
-            aths_down = Athlete_Info.objects.filter(position__gte=init_pos)#|Athlete_Info.objects.filter(athlete=ath)
-            aths_down.update(position=F('position')+1)
-            """
-            aths_down.update(position=F('position')+1)
-            #????!!
-            """
-            #ath_down=Athlete_Info.objects.filter(athlete__pk=ath.pk)
-            #ath_down.update(position=F('position')+1)"""
-
-        if Athlete_Info.objects.filter(position=init_pos+1).exists():
-            lower_score = Athlete_Info.objects.values('score').filter(position=init_pos+1)[0]['score']
-        else: return
-
-        while(self_score<lower_score)|(self_score==lower_score):
-            if (self_score<lower_score):
-                ath_down = Athlete_Info.objects.filter(athlete=ath)
-                aths_up = Athlete_Info.objects.filter(position=init_pos+1)
+                aths_up = Athlete_Info.objects.filter(position__gt=init_pos)
                 aths_up.update(position=F('position')-1)
-                ath_down.update(position=F('position')+1)
-                init_pos+=1
-                if Athlete_Info.objects.filter(position=init_pos+1).exists():
-                    lower_score = Athlete_Info.objects.values('score').filter(position=init_pos+1)[0]['score']
-                else : break
-                #lower_score = Athlete_Info.objects.values_list('score', flat=True).get(position=init_pos+1)
-            #Athlete_Info.objects.filter(athlete=ath).update(position=F('position')+1)
+                return
 
 @receiver(post_save, sender=User)
 def new_athlete_signal(instance, **kwargs):
