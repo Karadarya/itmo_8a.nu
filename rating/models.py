@@ -21,20 +21,7 @@ class Athlete_Info(models.Model):
 
 
 
-class Route(models.Model):
-    class Meta:
-        verbose_name='трасса'
-        verbose_name_plural='трассы'
-        ordering = ['-created']
-    name = models.CharField(max_length=200, verbose_name='название')
-    description = models.TextField(blank=True, verbose_name='описание')
-    author = models.ForeignKey(User, blank=True, verbose_name='постановщик')
-    created = models.DateTimeField(default=timezone.now, verbose_name='поставлена')
-    is_active = models.BooleanField(default=True, verbose_name='активна')
-    def __unicode__(self) :
-        return self.name
-    def __str__(self) :
-        return self.name
+
 
 class Grade(models.Model):
     class Meta:
@@ -62,10 +49,25 @@ class Remark(models.Model):
         return self.remark
 
 
+class Route(models.Model):
+    class Meta:
+        verbose_name='трасса'
+        verbose_name_plural='трассы'
+        ordering = ['-created']
+    name = models.CharField(max_length=200, verbose_name='название')
+    grade = models.ForeignKey(Grade, verbose_name='категория')
+    description = models.TextField(blank=True, verbose_name='описание')
+    author = models.ForeignKey(User, blank=True, null=True, verbose_name='постановщик')
+    created = models.DateTimeField(default=timezone.now, verbose_name='поставлена')
+    is_active = models.BooleanField(default=True, verbose_name='активна')
+    def __unicode__(self) :
+        return self.name
+    def __str__(self) :
+        return self.name
+
 class Athlete_Route(models.Model):
     athlete = models.ForeignKey(User, verbose_name='спортсмен')
     route = models.ForeignKey(Route, verbose_name='трасса')
-    grade = models.ForeignKey(Grade, verbose_name='категория')
     remark = models.ForeignKey(Remark, verbose_name='примечание')
     date = models.DateTimeField(default=timezone.now, verbose_name='дата')
     comment = models.TextField(blank=True, verbose_name='комментарий')

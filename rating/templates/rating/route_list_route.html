@@ -1,4 +1,5 @@
 <a class="lead"><b>{{ route.name }}</b></a>
+<span class="label label-primary">{{ route.grade }}</span>
 <small>({% if route.author.last_name %}
   {{ route.author.last_name }} {{ route.author.first_name }}
 {% else %}
@@ -20,7 +21,6 @@
             {{ c.athlete.username }}
           {% endif %}
           </a>
-          <span class="label label-primary">{{ c.grade.grade }}</span>
           <span class="label label-default">{{ c.remark.remark }}</span></big>
           {% if c.comment %}
             : {{ c.comment|linebreaksbr }}

@@ -2,7 +2,7 @@ from django.db.models.signals import post_save, post_delete, pre_save
 from django.db.models import F, Max
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from rating.models import Athlete_Info, Athlete_Route
+from rating.models import Athlete_Info, Athlete_Route, Route
 
 
 def rating_update(ath, way):
@@ -65,14 +65,14 @@ def new_athlete_signal(instance, **kwargs):
 @receiver(post_delete, sender=Athlete_Route)
 def del_old_points(instance, **kwargs):
     ath = Athlete_Info.objects.filter(athlete=instance.athlete)
-    ath.update(score=F('score')-(instance.grade.cost+instance.remark.cost))
+    ath.update(score=F('score')-(instance.route.grade.cost+instance.remark.cost))
     rating_update(instance.athlete, "down")
 
 
 @receiver(post_save, sender=Athlete_Route)
 def add_new_points(instance, **kwargs):
     ath = Athlete_Info.objects.filter(athlete=instance.athlete)
-    ath.update(score=F('score')+(instance.grade.cost+instance.remark.cost))
+    ath.update(score=F('score')+(instance.route.grade.cost+instance.remark.cost))
     rating_update(instance.athlete, "up")
 
 @receiver(post_save, sender=Athlete_Info)
