@@ -77,7 +77,7 @@ class Athlete_Route(models.Model):
         verbose_name='спортсмен_трасса'
         verbose_name_plural='спортсмены_трассы'
         ordering = ['-date']
-        unique_together = ("athlete", "route")
+        #unique_together = ("athlete", "route")
 
 
 class Season(models.Model):
