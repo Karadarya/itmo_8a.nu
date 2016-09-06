@@ -2,16 +2,16 @@
     <div class="container-fluid route-header">
       <div class="row">
         <div class="col-md-11" ><b>{{ route.name }}</b></div>
-        <div class="col-md-1">+</div>
+        <div class="col-md-1"><!--space for add_route sign--></div>
       </div>
     </div>
     <div class="row">
       <div class="col-md-5">
         <div class="route-info">
           <div class="row">
-          <div class="col-md-11">
+          <div class="col-md-10">
             {% if route.description%}
-              <br><span style="margin-left:2em">{{ route.description|linebreaksbr }}</span>
+              <p>{{ route.description|linebreaksbr }}</p>
             {% endif %}
             <p>Постановщик:
               {% if route.author.last_name %}
@@ -22,12 +22,12 @@
                ({{ route.created|date:"SHORT_DATE_FORMAT" }})
            </p>
           </div>
-          <div class="col-md-1">{{ route.grade }}</div>
+          <div class="col-md-2"><span class="grade">{{ route.grade }}</span></div>
           </div>
         </div>
 
       </div>
-      <div class="col-md-7 comments">
+      <div class="col-md-7 container-fluid comments">
         <h4>Последние пролазы:</h4>
         <div class="container-fluid comment-container">
           {% for c in comments %}

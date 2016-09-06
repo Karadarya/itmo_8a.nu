@@ -1,15 +1,60 @@
-<a class="lead" href="">{{ route.route.name }}</a>
-{% if route.route.description%}
-  <br>{{ route.route.description|linebreaksbr }}
-{% endif %}
+<div class="container-fluid route-container">
+  <div class="container-fluid route-header">
+    <div class="row">
+      <div class="col-md-11" ><b>{{ route.route.name }}</b></div>
+      <div class="col-md-1">{{ route.route.grade }}</div>
+    </div>
+  </div>
 
-<h3>
-  <span class="label label-primary">{{ route.route.grade }}</span>
-  <span class="label label-default">{{ route.remark.remark }}</span>
-  <small>{{ route.date|date:"SHORT_DATE_FORMAT" }}</small>
-  <br>
-</h3>
+<div class="row">
   {% if route.comment %}
-  <br>
-      <p><b>Комментарий:</b> {{ route.comment|linebreaksbr }}</p>
+  <div class="col-md-5">
+    <div class="route-info">
+        {% if route.route.description%}
+          <p>{{ route.route.description|linebreaksbr }}</p>
+        {% endif %}
+        <p>Постановщик:
+          {% if route.route.author.last_name %}
+            {{ route.route.author.last_name }} {{ route.route.author.first_name }}
+          {% else %}
+            {{ route.route.author.username }}
+          {% endif %}
+           ({{ route.route.created|date:"SHORT_DATE_FORMAT" }})
+       </p>
+    </div>
+
+  </div>
+  <div class="col-md-5 container-fluid comments">
+    <h4>Комментарий:</h4>
+    <div class="container-fluid comment-container">
+        {{ route.comment|linebreaksbr }}
+    </div>
+  </div>
+  {% else %}
+  <div class="col-md-10">
+    <div class="route-info">
+        {% if route.route.description%}
+          <p>{{ route.route.description|linebreaksbr }}</p>
+        {% endif %}
+        <p>Постановщик:
+          {% if route.route.author.last_name %}
+            {{ route.route.author.last_name }} {{ route.route.author.first_name }}
+          {% else %}
+            {{ route.route.author.username }}
+          {% endif %}
+           ({{ route.route.created|date:"SHORT_DATE_FORMAT" }})
+       </p>
+    </div>
+  </div>
   {% endif %}
+  <div class="col-md-2">
+    <div class="container-fluid remark-container ">
+    <h3>
+      <span class="label label-default">{{ route.remark.remark }}</span>
+    </h3>
+      <p>{{ route.date|date:"SHORT_DATE_FORMAT" }}</p>
+    </div>
+</div>
+</div>
+
+</div>

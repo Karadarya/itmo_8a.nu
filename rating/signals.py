@@ -60,7 +60,8 @@ def rating_update(ath, way):
 @receiver(post_save, sender=User)
 def new_athlete_signal(instance, **kwargs):
     if not Athlete_Info.objects.filter(athlete=instance).exists():
-        Athlete_Info.objects.create(athlete=instance, score=0, position=Athlete_Info.objects.count()+1)
+        p=Athlete_Info.objects.aggregate(Max('position'))
+        Athlete_Info.objects.create(athlete=instance, score=0, position=p['position__max']+1)
 
 @receiver(post_delete, sender=Athlete_Route)
 def del_old_points(instance, **kwargs):
