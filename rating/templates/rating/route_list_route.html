@@ -1,31 +1,53 @@
-<a class="lead"><b>{{ route.name }}</b></a>
-<span class="label label-primary">{{ route.grade }}</span>
-<small>({% if route.author.last_name %}
-  {{ route.author.last_name }} {{ route.author.first_name }}
-{% else %}
-  {{ route.author.username }}
-{% endif %}
- {{ route.created|date:"SHORT_DATE_FORMAT" }})
-</small>
-{% if route.description%}
-  <br><span style="margin-left:2em">{{ route.description|linebreaksbr }}</span>
-{% endif %}
+  <div class="container route-container">
+    <div class="container-fluid route-header">
+      <div class="row">
+        <div class="col-md-11" ><b>{{ route.name }}</b></div>
+        <div class="col-md-1">+</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="route-info">
+          <div class="row">
+          <div class="col-md-11">
+            {% if route.description%}
+              <br><span style="margin-left:2em">{{ route.description|linebreaksbr }}</span>
+            {% endif %}
+            <p>Постановщик:
+              {% if route.author.last_name %}
+                {{ route.author.last_name }} {{ route.author.first_name }}
+              {% else %}
+                {{ route.author.username }}
+              {% endif %}
+               ({{ route.created|date:"SHORT_DATE_FORMAT" }})
+           </p>
+          </div>
+          <div class="col-md-1">{{ route.grade }}</div>
+          </div>
+        </div>
 
-<br><h4>Последние пролазы:</h4>
-  {% for c in comments %}
-      {% if c.route == route %}
-        <p style="margin-left:2em"><big><a href="{% url "athlete_routes" username=c.athlete.username %}">
-          {% if c.athlete.last_name %}
-            {{ c.athlete.last_name }} {{ c.athlete.first_name }}
-          {% else %}
-            {{ c.athlete.username }}
-          {% endif %}
-          </a>
-          <span class="label label-default">{{ c.remark.remark }}</span></big>
-          {% if c.comment %}
-            : {{ c.comment|linebreaksbr }}
-          {% endif %}
-        </p>
+      </div>
+      <div class="col-md-7 comments">
+        <h4>Последние пролазы:</h4>
+        <div class="container-fluid comment-container">
+          {% for c in comments %}
+              {% if c.route == route %}
+                <p><big><a href="{% url "athlete_routes" username=c.athlete.username %}">
+                  {% if c.athlete.last_name %}
+                    {{ c.athlete.last_name }} {{ c.athlete.first_name }}
+                  {% else %}
+                    {{ c.athlete.username }}
+                  {% endif %}
+                  </a>
+                  <span class="label label-default">{{ c.remark.remark }}</span></big>
+                  {% if c.comment %}
+                    : {{ c.comment|linebreaksbr }}
+                  {% endif %}
+                </p>
 
-      {% endif %}
-    {% endfor%}
+              {% endif %}
+            {% endfor%}
+        </div>
+      </div>
+    </div>
+  </div>

@@ -4,16 +4,25 @@
   Трассы сезона
 {% endblock %}
 
+
 {% block heading %}
+<div class="row">
+<div class="col-md-10">
   <h2>Трассы сезона</h2>
+</div>
+<div class="col-md-2">
+  <a href="{% url "new_route" %}"><button style="margin-top: 20px; margin-bottom: 20px" type="button" class="btn btn-link">+ добавить трассу</button></a>
+</div>
+</div>
 {% endblock %}
 
+
 {% block content %}
-<a href="{% url "new_route" %}"><button type="button" class="btn btn-link">+ добавить трассу</button></a>
+
 <ul class="list-unstyled">
-  
+
   {% for route in routes %}
-    <li class="well well-sm">{% include "rating/route_list_route.html" %}</li>
+    <li class="">{% include "rating/route_list_route.html" %}</li>
   {% empty %}
     <li>Трасс пока нет :C </li>
   {% endfor %}
