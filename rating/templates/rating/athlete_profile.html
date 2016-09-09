@@ -5,7 +5,7 @@
     <li role="presentation" class="active"><a href="{% url "athlete_profile" username=athlete.athlete.username%}"><strong>Профиль</strong></a></li>
     <li role="presentation" ><a class="grey" href="{% url "athlete_routes" username=athlete.athlete.username %}">Трассы TOP</a></li>
     {% if user == athlete.athlete %}
-      <a href="{% url "profile_edit" username=user.username %}"><button style="float:right" type="button" class="btn btn-default">Редактировать</button></a>
+      <a href="{% url "profile_edit" username=user.username %}"><button style="float:right" type="button" class="btn btn-primary">Редактировать</button></a>
     {% endif %}
 </ul>
 
