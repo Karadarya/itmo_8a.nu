@@ -98,3 +98,18 @@ body{
     border-radius: 5px;
     box-shadow: 0 0 7px rgba(0,0,0,0.3);
 }
+
+.jumdotron-text-black{
+  padding-top: 53px;
+  color: rgb(16, 11, 7);
+}
+
+.jumdotron-text-yellow{
+  padding-right: 15px;
+  color: #eb9c4f;
+  text-align: right;
+}
+
+.table{
+  margin-bottom: 0px;
+}
