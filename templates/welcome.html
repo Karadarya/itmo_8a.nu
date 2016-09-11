@@ -50,8 +50,9 @@
             </div>
             {% csrf_token %}
             <button type="submit" class="btn btn-success">Войти</button>
-            <a href="{% url "register_user" %}"><button class="btn btn-link">Регистрация</button></a>
+
           </form>
+          <a href="{% url "register_user" %}">Регистрация</a>
         </div>
       </div>
     </div>
