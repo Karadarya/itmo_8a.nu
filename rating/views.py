@@ -3,8 +3,9 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render, render_to_response
 from django.contrib.auth import login, authenticate
+from django.db import IntegrityError
 
 from .models import Athlete_Info, Athlete_Route, Route
 from .forms import Athlete_Route_Form, RegisterForm, Route_Form, ProfileForm
@@ -32,13 +33,20 @@ def athlete_routes(request, username):
 def add_route(request):
     if request.method == 'POST':
         form = Athlete_Route_Form(data=request.POST)
-        if form.is_valid():
-            route = form.save(commit=False)
-            route.athlete = request.user
-            route.save()
-            form.save_m2m()
-            return redirect('athlete_routes',
-                username=request.user.username)
+        try:
+            if form.is_valid():
+                route = form.save(commit=False)
+                route.athlete = request.user
+                route.save()
+                form.save_m2m()
+                return redirect('athlete_routes',
+                    username=request.user.username)
+        except (IntegrityError):
+            return render(request, 'rating/add_route.html', {
+                'form': form,
+                'error_message': "Вы уже добавили этот ТОР",
+        })
+
     else:
         form = Athlete_Route_Form()
     context = {'form': form, 'create': True}
