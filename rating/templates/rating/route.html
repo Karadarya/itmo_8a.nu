@@ -1,14 +1,14 @@
 <div class="container-fluid route-container">
   <div class="container-fluid route-header">
     <div class="row">
-      <div class="col-md-11" ><b>{{ route.route.name }}</b></div>
-      <div class="col-md-1">{{ route.route.grade }}</div>
+      <div class="col-lg-11 col-md-11 col-sm-11 col-xs-10" ><b>{{ route.route.name }}</b></div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2">{{ route.route.grade }}</div>
     </div>
   </div>
 
 <div class="row">
   {% if route.comment %}
-  <div class="col-md-5">
+  <div class="col-lg-5 col-md-5 col-sm-9 col-xs-12">
     <div class="route-info">
         {% if route.route.description%}
           <p>{{ route.route.description|linebreaksbr }}</p>
@@ -26,14 +26,25 @@
     </div>
 
   </div>
-  <div class="col-md-5 container-fluid comments">
-    <h4>Комментарий:</h4>
+  <div class="col-sm-3 visible-sm">
+    <div class="container-fluid remark-container ">
+    <h3>
+      <span class="label label-default">{{ route.remark.remark }}</span>
+    </h3>
+      <p>{{ route.date|date:"SHORT_DATE_FORMAT" }}</p>
+    </div>
+</div>
+
+  <div class="col-md-5 col-sm-12 col-xs-12 container-fluid comments">
+    <h4>
+      Комментарий:
+    <h4>
     <div class="container-fluid comment-container">
         {{ route.comment|linebreaksbr }}
     </div>
   </div>
   {% else %}
-  <div class="col-md-10">
+  <div class="col-md-10 col-sm-9 col-xs-12">
     <div class="route-info">
         {% if route.route.description%}
           <p>{{ route.route.description|linebreaksbr }}</p>
@@ -50,8 +61,16 @@
        </p>
     </div>
   </div>
+  <div class="col-sm-3 visible-sm">
+    <div class="container-fluid remark-container ">
+    <h3>
+      <span class="label label-default">{{ route.remark.remark }}</span>
+    </h3>
+      <p>{{ route.date|date:"SHORT_DATE_FORMAT" }}</p>
+    </div>
+</div>
   {% endif %}
-  <div class="col-md-2">
+  <div class="col-md-2 col-lg-2 col-xs-12 hidden-sm">
     <div class="container-fluid remark-container ">
     <h3>
       <span class="label label-default">{{ route.remark.remark }}</span>

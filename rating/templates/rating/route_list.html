@@ -7,11 +7,19 @@
 
 {% block heading %}
 <div class="row">
-  <div class="col-md-10">
+  <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
     <h2>Трассы сезона</h2>
   </div>
-  <div class="col-md-2" style="padding-top: 30px; padding-bottom: 20px">
-    <a class="grey" href="{% url "new_route" %}">+ добавить трассу</a>
+  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"> <!--style="padding-top: 30px; padding-bottom: 20px">-->
+    <div class="hidden-xs">
+      <a class="grey" href="{% url "new_route" %}"><button style="float:right; margin-top:20px;" type="button" class="btn btn-link">+ добавить трассу</button></a>
+    </div>
+    <div class="visible-xs">
+      <a href="{% url "new_route" %}"><button style="float:right; margin-top:20px;" type="button" class="btn btn-link btn-lg">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      </button>
+    </a>
+    </div>
   </div>
 </div>
 {% endblock %}
@@ -27,5 +35,6 @@
     <li>Трасс пока нет :C </li>
   {% endfor %}
 </ul>
+
 
 {% endblock %}

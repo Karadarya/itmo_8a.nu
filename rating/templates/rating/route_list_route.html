@@ -7,10 +7,10 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
         <div class="route-info">
           <div class="row">
-          <div class="col-md-10">
+          <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
             {% if route.description%}
               <p>{{ route.description|linebreaksbr }}</p>
             {% endif %}
@@ -23,12 +23,12 @@
                ({{ route.created|date:"SHORT_DATE_FORMAT" }})
            </p>
           </div>
-          <div class="col-md-2"><span class="grade">{{ route.grade }}</span></div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"><span class="grade">{{ route.grade }}</span></div>
           </div>
         </div>
 
       </div>
-      <div class="col-md-7 container-fluid comments">
+      <div class="col-lg-7 col-md-7 container-fluid comments">
         <h4>Последние пролазы:</h4>
         <div class="container-fluid comment-container">
             {% for c in comments|route_comments:route %}
