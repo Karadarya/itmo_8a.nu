@@ -14,14 +14,19 @@
             {% if route.description%}
               <p>{{ route.description|linebreaksbr }}</p>
             {% endif %}
-            <p><b>Постановщик:</b><a href="{% url "athlete_profile" username=route.author.username %}">
-              {% if route.author.last_name %}
-                {{ route.author.last_name }} {{ route.author.first_name }}
-              {% else %}
-                {{ route.author.username }}
-              {% endif %}</a>
-               ({{ route.created|date:"SHORT_DATE_FORMAT" }})
-           </p>
+            {% if route.author %}
+              <p><b>Постановщик:</b><a href="{% url "athlete_profile" username=route.author.username %}">
+                {% if route.author.last_name %}
+                  {{ route.author.last_name }} {{ route.author.first_name }}
+                {% else %}
+                  {{ route.author.username }}
+                {% endif %}</a>
+                ({{ route.created|date:"SHORT_DATE_FORMAT" }})
+               </p>
+               
+            {% else %}
+              {{ route.created|date:"SHORT_DATE_FORMAT" }}
+            {% endif %}
           </div>
           <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3"><span class="grade">{{ route.grade }}</span></div>
           </div>
