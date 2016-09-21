@@ -57,7 +57,7 @@ class Route(models.Model):
     name = models.CharField(max_length=200, verbose_name='название')
     grade = models.ForeignKey(Grade, verbose_name='категория')
     description = models.TextField(blank=True, verbose_name='описание')
-    author = models.ForeignKey(User, blank=True, null=True, verbose_name='постановщик')
+    author = models.CharField(max_length=100, blank=True, null=True, verbose_name='автор')#models.ForeignKey(User, blank=True, null=True, verbose_name='постановщик')
     created = models.DateTimeField(default=timezone.now, verbose_name='поставлена')
     is_active = models.BooleanField(default=True, verbose_name='активна')
     def __unicode__(self) :

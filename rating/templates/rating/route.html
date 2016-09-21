@@ -15,13 +15,9 @@
         {% endif %}
         {% if route.route.author %}
           <p><b>Постановщик:</b>
-            <a href="{% url "athlete_profile" username=route.route.author.username %}">
-            {% if route.route.author.last_name %}
-              {{ route.route.author.last_name }} {{ route.route.author.first_name }}
-            {% else %}
-              {{ route.route.author.username }}
-            {% endif %}
-          </a>
+
+            {{ route.route.author }}
+          
              ({{ route.route.created|date:"SHORT_DATE_FORMAT" }})
          </p>
          {% else %}
@@ -55,13 +51,9 @@
         {% endif %}
         {% if route.route.author %}
           <p><b>Постановщик:</b>
-            <a href="{% url "athlete_profile" username=route.route.author.username %}">
-            {% if route.route.author.last_name %}
-              {{ route.route.author.last_name }} {{ route.route.author.first_name }}
-            {% else %}
-              {{ route.route.author.username }}
-            {% endif %}
-            </a>
+
+            {{ route.route.author }}
+
              ({{ route.route.created|date:"SHORT_DATE_FORMAT" }})
          </p>
          {% else %}

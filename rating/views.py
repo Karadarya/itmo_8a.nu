@@ -75,7 +75,10 @@ def new_route(request):
         form = Route_Form(data=request.POST)
         if form.is_valid():
             route = form.save(commit=False)
-            route.author = request.user
+            if (request.user.last_name!="")|(request.user.first_name!=""):
+                route.author = request.user.last_name+" "+request.user.first_name
+            else:
+                route.author = request.user.username
             route.save()
             form.save_m2m()
             return redirect('route_list')

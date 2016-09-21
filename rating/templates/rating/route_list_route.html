@@ -15,15 +15,11 @@
               <p>{{ route.description|linebreaksbr }}</p>
             {% endif %}
             {% if route.author %}
-              <p><b>Постановщик:</b><a href="{% url "athlete_profile" username=route.author.username %}">
-                {% if route.author.last_name %}
-                  {{ route.author.last_name }} {{ route.author.first_name }}
-                {% else %}
-                  {{ route.author.username }}
-                {% endif %}</a>
+              <p><b>Постановщик:</b>
+                {{ route.author }}
                 ({{ route.created|date:"SHORT_DATE_FORMAT" }})
                </p>
-               
+
             {% else %}
               {{ route.created|date:"SHORT_DATE_FORMAT" }}
             {% endif %}
