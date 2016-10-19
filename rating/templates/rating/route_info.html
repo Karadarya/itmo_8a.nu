@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ route.name }}
+{% endblock %}
+{% block heading %}
+<div class="row">
+  <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+    <h2>{{ route.name }}</h2>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<ul class="list-group">
+  <li class="list-group-item"><b>info</b> {{ athlete.last_name }}</li>
+  <li class="list-group-item"><b>info</b> {{ athlete.first_name }}</li>
+  <li class="list-group-item"><b>info</b> <big>{{ athlete.position }}</big> (<i>{{athlete.score|floatformat}} баллов</i>) </li>
+</ul>
+
+
+{% endblock %}

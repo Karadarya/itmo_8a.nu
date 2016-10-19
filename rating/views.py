@@ -112,3 +112,9 @@ def athlete_profile(request, username):
     athlete = get_object_or_404(Athlete_Info, athlete__username=username)
     context = {'athlete': athlete}
     return render(request, 'rating/athlete_profile.html', context)
+
+def route_info(request, id):
+    route = get_object_or_404(Route, id=id)
+    comments = Athlete_Route.objects.order_by('-date')
+    context = {'route': route, 'comments': comments}
+    return render(request, 'rating/route_info.html', context)
