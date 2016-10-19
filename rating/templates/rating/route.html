@@ -17,8 +17,7 @@
           <p><b>Постановщик:</b>
 
             {{ route.route.author }}
-          
-             ({{ route.route.created|date:"SHORT_DATE_FORMAT" }})
+
          </p>
          {% else %}
            Поставлена {{ route.route.created|date:"SHORT_DATE_FORMAT" }}
@@ -31,7 +30,9 @@
     <h3>
       <span class="label label-default">{{ route.remark.remark }}</span>
     </h3>
-      <p>{{ route.date|date:"SHORT_DATE_FORMAT" }}</p>
+      {% with rem=route.remark.cost %}
+      <p>{{ route.route.grade.cost|add:rem }} баллов</p>
+      {% endwith %}
     </div>
 </div>
 
@@ -54,7 +55,6 @@
 
             {{ route.route.author }}
 
-             ({{ route.route.created|date:"SHORT_DATE_FORMAT" }})
          </p>
          {% else %}
            Поставлена {{ route.route.created|date:"SHORT_DATE_FORMAT" }}
@@ -66,7 +66,9 @@
     <h3>
       <span class="label label-default">{{ route.remark.remark }}</span>
     </h3>
-      <p>{{ route.date|date:"SHORT_DATE_FORMAT" }}</p>
+      {% with rem=route.remark.cost %}
+      <p>{{ route.route.grade.cost|add:rem }} баллов</p>
+      {% endwith %}
     </div>
 </div>
   {% endif %}
@@ -75,7 +77,9 @@
     <h3>
       <span class="label label-default">{{ route.remark.remark }}</span>
     </h3>
-      <p>{{ route.date|date:"SHORT_DATE_FORMAT" }}</p>
+        {% with rem=route.remark.cost %}
+        <p>{{ route.route.grade.cost|add:rem }} баллов</p>
+        {% endwith %}
     </div>
 </div>
 </div>
