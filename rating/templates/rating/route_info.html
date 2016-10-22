@@ -13,11 +13,60 @@
 
 
 {% block content %}
-<ul class="list-group">
-  <li class="list-group-item"><b>info</b> {{ athlete.last_name }}</li>
-  <li class="list-group-item"><b>info</b> {{ athlete.first_name }}</li>
-  <li class="list-group-item"><b>info</b> <big>{{ athlete.position }}</big> (<i>{{athlete.score|floatformat}} баллов</i>) </li>
-</ul>
+<div class="container route-info"></div>
+<div class=" table-responsive rating-table route-comments">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Спортсмен</th>
+        <th>Попытка</th>
+        <th>Комментарий</th>
+        <th>Дата</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in comments %}
+        <tr>
+          <td style="width: 25%;"><a href="{% url "athlete_routes" username=c.athlete.username %}">
+            {% if c.athlete.last_name%}
+              {{ c.athlete.last_name }} {{ c.athlete.first_name }}
+            {% else %}
+              {{ c.athlete.username }}
+            {% endif %}
+            </a>
+          </td>
+          <td style="padding: 12px;"><big><span class="label label-default">{{ c.remark.remark }}</span></big></td>
+          <td>
+            {% if c.comment %}
+              "{{ c.comment|linebreaksbr }}"
+            {% endif %}
+          </td>
+          <td>{{ c.date|date:"SHORT_DATE_FORMAT" }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  <!--
+  <ul class="list-group">
+    {% for c in comments %}
+      <li class="list-group-item">
+        <p><big><a href="{% url "athlete_routes" username=c.athlete.username %}">
+          {% if c.athlete.last_name%}
+            {{ c.athlete.last_name }} {{ c.athlete.first_name }}
+          {% else %}
+            {{ c.athlete.username }}
+          {% endif %}
+          </a>
+          <span class="label label-default">{{ c.remark.remark }}</span></big>
+          {% if c.comment %}
+            : {{ c.comment|linebreaksbr }}
+          {% endif %}
+        </p>
+      </li>
+    {% endfor %}
+    <li class="list-group-item"><b>info</b> {{ athlete.first_name }}</li>
+    <li class="list-group-item"><b>info</b> <big>{{ athlete.position }}</big> (<i>{{athlete.score|floatformat}} баллов</i>) </li>
+  </ul>-->
+</div>
 
 
 {% endblock %}
