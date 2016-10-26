@@ -33,7 +33,6 @@
         <h4>Последние пролазы:</h4>
         <div class="container-fluid comment-container">
             {% for c in comments|route_comments:route %}
-              <!--{% if c.route == route %}-->
                 <p><big><a href="{% url "athlete_routes" username=c.athlete.username %}">
                   {% if c.athlete.last_name%}
                     {{ c.athlete.last_name }} {{ c.athlete.first_name }}
@@ -47,11 +46,10 @@
                   {% endif %}
                 </p>
 
-              <!--{% endif %}-->
             {% empty %}
               <p class="text-muted">Пока нет. Можешь стать первым ;)</p>
             {% endfor%}
-            {% if comments %}
+            {% if comments|route_comments:route%}
               <a href="{% url "route_info" route.id%}" class="grey">Смотреть все...</a>
             {% endif %}
         </div>
