@@ -2,7 +2,7 @@
 
 {% block content %}
 <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" ><a class="grey" href="{% url "athlete_profile" username=athlete.athlete.username%}">Профиль</a></li>
+    <li role="presentation" ><a class="" href="{% url "athlete_profile" username=athlete.athlete.username%}">Профиль</a></li>
     <li role="presentation" class="active"><a href="{% url "athlete_routes" username=athlete.athlete.username %}"><strong>Трассы TOP</strong></a></li>
     {% if user == athlete.athlete %}
       <div class="hidden-xs">

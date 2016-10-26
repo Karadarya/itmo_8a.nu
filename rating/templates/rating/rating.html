@@ -19,7 +19,7 @@
       <tbody>
         {% for athlete in athletes %}
         <tr>
-          <td>{{ athlete.position }}</td>
+          <td style="width: 7%; padding-left: 15px;">{{ athlete.position }}</td>
           <td><a href="{% url "athlete_routes" username=athlete.athlete.username %}">
             {% if athlete.athlete.last_name %}
               {{ athlete.athlete.last_name }} {{ athlete.athlete.first_name }}</a></td>

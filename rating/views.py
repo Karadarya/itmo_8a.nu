@@ -88,7 +88,7 @@ def new_route(request):
     return render(request, 'rating/new_route.html', context)
 
 def route_list(request):
-    routes = Route.objects.all()
+    routes = Route.objects.all().order_by('grade')
     comments = Athlete_Route.objects.order_by('-date')
     context = {'routes': routes, 'comments': comments}
     return render(request, 'rating/route_list.html', context)

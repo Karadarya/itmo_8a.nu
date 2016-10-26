@@ -2,7 +2,7 @@
   <div class="container route-container">
     <div class="container-fluid route-header">
       <div class="row">
-        <div class="col-md-11" ><a href="{% url "route_info" route.id%}">{{ route.name }}</a></div>
+        <div class="col-md-11" >{{ route.name }}</div>
         <div class="col-md-1"><!--space for add_route sign--></div>
       </div>
     </div>
@@ -51,7 +51,9 @@
             {% empty %}
               <p class="text-muted">Пока нет. Можешь стать первым ;)</p>
             {% endfor%}
-
+            {% if comments %}
+              <a href="{% url "route_info" route.id%}" class="grey">Смотреть все...</a>
+            {% endif %}
         </div>
       </div>
     </div>

@@ -67,15 +67,18 @@ a:hover {
   font-weight: bold;
 }
 
-/*.grey {
+.grey {
   color: #666;
+  float: right;
+  margin-right: 10px;
+  font-size: 15px;
 }
 
 .grey:active,
 .grey:hover {
   color: #333;
   outline: 0;
-}*/
+}
 
 .remark-container{
   color: #666;
@@ -112,4 +115,10 @@ body{
 
 .table{
   margin-bottom: 0px;
+}
+
+.route-info-info{
+  margin-left: -15px;
+  margin-top: 15px;
+  color: #676767;
 }

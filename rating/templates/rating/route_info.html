@@ -13,60 +13,73 @@
 
 
 {% block content %}
-<div class="container route-info"></div>
-<div class=" table-responsive rating-table route-comments">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Спортсмен</th>
-        <th>Попытка</th>
-        <th>Комментарий</th>
-        <th>Дата</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for c in comments %}
-        <tr>
-          <td style="width: 25%;"><a href="{% url "athlete_routes" username=c.athlete.username %}">
-            {% if c.athlete.last_name%}
-              {{ c.athlete.last_name }} {{ c.athlete.first_name }}
-            {% else %}
-              {{ c.athlete.username }}
-            {% endif %}
-            </a>
-          </td>
-          <td style="padding: 12px;"><big><span class="label label-default">{{ c.remark.remark }}</span></big></td>
-          <td>
-            {% if c.comment %}
-              "{{ c.comment|linebreaksbr }}"
-            {% endif %}
-          </td>
-          <td>{{ c.date|date:"SHORT_DATE_FORMAT" }}</td>
-        </tr>
-      {% endfor %}
-    </table>
-  <!--
-  <ul class="list-group">
-    {% for c in comments %}
-      <li class="list-group-item">
-        <p><big><a href="{% url "athlete_routes" username=c.athlete.username %}">
-          {% if c.athlete.last_name%}
-            {{ c.athlete.last_name }} {{ c.athlete.first_name }}
-          {% else %}
-            {{ c.athlete.username }}
-          {% endif %}
-          </a>
-          <span class="label label-default">{{ c.remark.remark }}</span></big>
-          {% if c.comment %}
-            : {{ c.comment|linebreaksbr }}
-          {% endif %}
-        </p>
-      </li>
-    {% endfor %}
-    <li class="list-group-item"><b>info</b> {{ athlete.first_name }}</li>
-    <li class="list-group-item"><b>info</b> <big>{{ athlete.position }}</big> (<i>{{athlete.score|floatformat}} баллов</i>) </li>
-  </ul>-->
+<div class="row">
+  <div class="col-md-12">
+  </div>
+  <div class="col-md-12">
+    <!--<h4>Пролезли</h4>"""-->
+    <div class=" table-responsive rating-table route-comments">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Спортсмен</th>
+            <th>Попытка</th>
+            <th>Баллы</th>
+            <th>Комментарий</th>
+            <th>Дата</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in comments %}
+            <tr>
+              <td style="width: 20%;"><a href="{% url "athlete_routes" username=c.athlete.username %}">
+                {% if c.athlete.last_name%}
+                  {{ c.athlete.last_name }} {{ c.athlete.first_name }}
+                {% else %}
+                  {{ c.athlete.username }}
+                {% endif %}
+                </a>
+              </td>
+              <td style="padding: 12px;"><big><span class="label label-default">{{ c.remark.remark }}</span></big></td>
+              <td>
+                {% with rem=c.remark.cost %}
+                  {{ route.grade.cost|add:rem }}
+                {% endwith %}
+              </td>
+              <td>
+                {% if c.comment %}
+                  "{{ c.comment|linebreaksbr }}"
+                {% endif %}
+              </td>
+              <td>{{ c.date|date:"SHORT_DATE_FORMAT" }}</td>
+            </tr>
+          {% endfor %}
+        </table>
+      <!--
+      <ul class="list-group">
+        {% for c in comments %}
+          <li class="list-group-item">
+            <p><big><a href="{% url "athlete_routes" username=c.athlete.username %}">
+              {% if c.athlete.last_name%}
+                {{ c.athlete.last_name }} {{ c.athlete.first_name }}
+              {% else %}
+                {{ c.athlete.username }}
+              {% endif %}
+              </a>
+              <span class="label label-default">{{ c.remark.remark }}</span></big>
+              {% if c.comment %}
+                : {{ c.comment|linebreaksbr }}
+              {% endif %}
+            </p>
+          </li>
+        {% endfor %}
+        <li class="list-group-item"><b>info</b> {{ athlete.first_name }}</li>
+        <li class="list-group-item"><b>info</b> <big>{{ athlete.position }}</big> (<i>{{athlete.score|floatformat}} баллов</i>) </li>
+      </ul>-->
+    </div>
+  </div>
 </div>
+
 
 
 {% endblock %}
