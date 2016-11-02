@@ -3,35 +3,39 @@
 {% block title %}Рейтинг{% endblock %}
 
 {% block heading %}
-  <h2>Рейтинг</h2>
+  <h2>Рейтинг месяца</h2>
 {% endblock %}
 
 {% block content %}
-  <div class="table-responsive rating-table">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Место</th>
-          <th>Спортсмен</th>
-          <th>Баллы</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for athlete in athletes %}
-        <tr>
-          <td style="width: 7%; padding-left: 15px;">{{ athlete.position }}</td>
-          <td><a href="{% url "athlete_routes" username=athlete.athlete.username %}">
-            {% if athlete.athlete.last_name %}
-              {{ athlete.athlete.last_name }} {{ athlete.athlete.first_name }}</a></td>
-            {% else %}
-              {{ athlete.athlete.username }}
-            {% endif %}
-          <td>{{ athlete.score|floatformat }}</td>
-        </tr>
-        {% empty %}
-          <!--add something-->
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+  {% if athletes %}
+      <div class="table-responsive rating-table">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Место</th>
+              <th>Спортсмен</th>
+              <th>Баллы</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for athlete in athletes %}
+            <tr>
+              <td style="width: 7%; padding-left: 15px;">{{ athlete.position }}</td>
+              <td><a href="{% url "athlete_routes" username=athlete.athlete.username %}">
+                {% if athlete.athlete.last_name %}
+                  {{ athlete.athlete.last_name }} {{ athlete.athlete.first_name }}</a></td>
+                {% else %}
+                  {{ athlete.athlete.username }}
+                {% endif %}
+              <td>{{ athlete.score|floatformat }}</td>
+            </tr>
+            {% empty %}
+              <!--add something-->
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="alert alert-warning" role="alert"><p>Обновление рейтинга</p></div>
+    {% endif %}
 {% endblock %}

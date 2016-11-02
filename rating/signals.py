@@ -57,6 +57,8 @@ def rating_update(ath, way):
                 aths_up.update(position=F('position')-1)
                 return
 
+
+
 @receiver(post_save, sender=User)
 def new_athlete_signal(instance, **kwargs):
     if not Athlete_Info.objects.filter(athlete=instance).exists():
@@ -87,3 +89,4 @@ def new_period(instance, **kwargs):
     per.update(finished=timezone.now())
     per.update(current=False)
     Period.objects.filter(id=instance.id).update(current=True)
+    Athlete_Info.objects.all().update(score=0)

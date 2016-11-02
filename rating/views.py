@@ -19,7 +19,7 @@ def welcome(request):
             username=request.user.username)
 
 def rating(request):
-    athletes = Athlete_Info.objects.order_by('position')
+    athletes = Athlete_Info.objects.filter(score__gt=0).order_by('position')
     context = {'athletes': athletes}
     return render(request, 'rating/rating.html', context)
 
