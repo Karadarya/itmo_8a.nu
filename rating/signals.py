@@ -2,8 +2,8 @@ from django.db.models.signals import post_save, post_delete, pre_save
 from django.db.models import F, Max
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from rating.models import Athlete_Info, Athlete_Route, Route
-
+from django.utils import timezone
+from rating.models import Athlete_Info, Athlete_Route, Route, Period
 
 def rating_update(ath, way):
     init_pos = Athlete_Info.objects.values_list('position', flat=True).get(athlete=ath)
@@ -63,6 +63,7 @@ def new_athlete_signal(instance, **kwargs):
         p=Athlete_Info.objects.aggregate(Max('position'))
         Athlete_Info.objects.create(athlete=instance, score=0, position=p['position__max']+1)
 
+
 @receiver(post_delete, sender=Athlete_Route)
 def del_old_points(instance, **kwargs):
     ath = Athlete_Info.objects.filter(athlete=instance.athlete)
@@ -79,3 +80,10 @@ def add_new_points(instance, **kwargs):
 @receiver(post_save, sender=Athlete_Info)
 def add_user_name(instance, **kwargs):
     User.objects.filter(username=instance.athlete.username).update(first_name=instance.first_name, last_name=instance.last_name)
+
+@receiver(post_save, sender=Period)
+def new_period(instance, **kwargs):
+    per = Period.objects.filter(current=True)
+    per.update(finished=timezone.now())
+    per.update(current=False)
+    Period.objects.filter(id=instance.id).update(current=True)

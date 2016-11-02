@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 
-from .models import Athlete_Info, Route, Grade, Remark, Athlete_Route, Season
+from .models import Athlete_Info, Route, Grade, Remark, Athlete_Route, Period
 
 class Athlete_Info_Admin(admin.ModelAdmin):
     list_display = ('position', 'athlete', 'first_name', 'last_name', 'score')
@@ -23,7 +23,7 @@ class Athlete_Route_Admin(admin.ModelAdmin):
     list_filter = ('route', 'athlete',)
     readonly_fields = ()
 
-class Season_Admin(admin.ModelAdmin):
+class Period_Admin(admin.ModelAdmin):
     list_display = ('started', 'finished', 'current')
     list_order_by = ('-started',)
 
@@ -32,4 +32,4 @@ admin.site.register(Route, Route_Admin)
 admin.site.register(Grade)
 admin.site.register(Remark)
 admin.site.register(Athlete_Route, Athlete_Route_Admin)
-admin.site.register(Season, Season_Admin)
+admin.site.register(Period, Period_Admin)

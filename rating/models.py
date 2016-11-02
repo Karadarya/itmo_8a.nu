@@ -20,9 +20,6 @@ class Athlete_Info(models.Model):
         return self.athlete.username
 
 
-
-
-
 class Grade(models.Model):
     class Meta:
         verbose_name='категория'
@@ -65,6 +62,7 @@ class Route(models.Model):
     def __str__(self) :
         return self.name
 
+
 class Athlete_Route(models.Model):
     athlete = models.ForeignKey(User, verbose_name='спортсмен')
     route = models.ForeignKey(Route, verbose_name='трасса')
@@ -82,23 +80,23 @@ class Athlete_Route(models.Model):
         unique_together = ("athlete", "route")
 
 
-class Season(models.Model):
+class Period(models.Model):
     started = models.DateField(default=timezone.now, verbose_name='начало')
-    current = models.BooleanField(default=True, verbose_name='текущий')
+    current = models.BooleanField(default=False, verbose_name='текущий')
     finished = models.DateField(null=True, blank=True, verbose_name='конец')
 
     def __str__(self):
         if self.finished:
-            return "%s %s - %s %s" %(self.started.month, self.started.year, self.finished.month, self.finished.year)
+            return "%s.%s.%s - %s.%s.%s" %(self.started.day, self.started.month, self.started.year, self.finished.day, self.finished.month, self.finished.year)
         else:
-            return "%s %s - now" %(self.started.month, self.started.year)
+            return "%s.%s.%s - now" %(self.started.day, self.started.month, self.started.year)
     def __unicode__(self):
         if self.finished:
-            return "%s %s - %s %s" %(self.started.month, self.started.year, self.finished.month, self.finished.year)
+            return "%s.%s.%s - %s.%s.%s" %(self.started.day, self.started.month, self.started.year, self.finished.day, self.finished.month, self.finished.year)
         else:
-            return "%s %s - now" %(self.started.month, self.started.year)
+            return "%s.%s.%s - now" %(self.started.day, self.started.month, self.started.year)
     class Meta:
-        verbose_name='сезон'
-        verbose_name_plural='сезоны'
+        verbose_name='Период'
+        verbose_name_plural='Период'
         ordering = ['-started']
         unique_together = ("started", "finished")
