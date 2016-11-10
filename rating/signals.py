@@ -74,10 +74,11 @@ def del_old_points(instance, **kwargs):
 
 
 @receiver(post_save, sender=Athlete_Route)
-def add_new_points(instance, **kwargs):
-    ath = Athlete_Info.objects.filter(athlete=instance.athlete)
-    ath.update(score=F('score')+(instance.route.grade.cost+instance.remark.cost))
-    rating_update(instance.athlete, "up")
+def add_new_points(instance, created, **kwargs):
+    if ( created == True ):
+        ath = Athlete_Info.objects.filter(athlete=instance.athlete)
+        ath.update(score=F('score')+(instance.route.grade.cost+instance.remark.cost))
+        rating_update(instance.athlete, "up")
 
 @receiver(post_save, sender=Athlete_Info)
 def add_user_name(instance, **kwargs):
