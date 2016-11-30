@@ -5,6 +5,13 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from rating.models import Athlete_Info, Athlete_Route, Route, Period
 
+def check_best_results(ath, new_top):
+    num_of_res = 6
+    best_results = Athlete_Route.objects.order_by('route__grade__cost')[:num_of_res]
+    if new_top in best_results:
+        """ath.update()"""
+        pass
+
 def rating_update(ath, way):
     init_pos = Athlete_Info.objects.values_list('position', flat=True).get(athlete=ath)
     self_score = Athlete_Info.objects.values_list('score', flat=True).get(athlete=ath)

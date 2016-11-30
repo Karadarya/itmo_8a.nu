@@ -25,7 +25,7 @@ def rating(request):
 
 def athlete_routes(request, username):
     athlete = get_object_or_404(Athlete_Info, athlete__username=username)
-    routes = Athlete_Route.objects.filter(athlete__username=username)
+    routes = Athlete_Route.objects.filter(athlete__username=username).order_by('-route__grade')
     context = {'routes': routes, 'athlete': athlete}
     return render(request, 'rating/athlete_routes.html', context)
 
@@ -107,6 +107,30 @@ def profile_edit(request, username):
         form = ProfileForm(instance=profile)
     context = {'form': form, 'create': False}
     return render(request, 'rating/profile_edit.html', context)
+
+#doesn't work idk why
+"""
+@login_required
+def route_edit(request, id) :
+    route = get_object_or_404(Route, id=id)
+    if route.author != request.user and not request.user.is_superuser:
+        raise PermissionDenied
+    if request.method == 'POST' :
+        form = Route_Form(instance=route, data=request.POST)
+        old_grade = form.data['grade']
+        if form.is_valid():
+            new_grade = form.cleaned_data['grade']
+            if old_grade != new_grade :
+                raise PermissionDenied
+            else:
+                #if form.is_valid():
+                form.save()
+                return redirect('athlete_profile', username=User.username)
+    else:
+        form = Route_Form()
+    context = {'form': form, 'create': False}
+    return render(request, 'rating/route_edit.html', context)
+"""
 
 def athlete_profile(request, username):
     athlete = get_object_or_404(Athlete_Info, athlete__username=username)
