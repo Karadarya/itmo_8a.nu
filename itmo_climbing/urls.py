@@ -22,20 +22,50 @@ from rest_framework import routers, serializers, viewsets
 
 
 # Serializers define the API representation.
-class RouteSerializer(serializers.HyperlinkedModelSerializer):
+class GradeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Grade
+        fields = ('grade', 'cost')
+
+class RouteSerializer(serializers.ModelSerializer):
+    grade = GradeSerializer(read_only=True)
+
     class Meta:
         model = models.Route
-        #fields = '__all__' #('id', 'name', 'grade')
-        exclude = ('grade',)
+        fields = '__all__'#('id', 'name', 'grade', 'description', 'author', 'created', 'is_active')
+        #exclude = ('grade',)
+
+class Athlete_InfoSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = models.Athlete_Info
+        exclude = ('athlete','score','position')
+
+class RemarkSerializer(serializers.ModelSerializer) :
+    class Meta:
+        model = models.Remark
+        fields = ('remark', 'cost')
+
+class Atlete_RouteSerializer(serializers.ModelSerializer) :
+    athlete = Athlete_InfoSerializer(read_only=True)
+    route = RouteSerializer(read_only=True)
+    remark = RemarkSerializer(read_only=True)
+
+    class Meta:
+        model = models.Athlete_Route
+        fields = '__all__'
 
 # ViewSets define the view behavior.
 class RouteViewSet(viewsets.ModelViewSet):
     queryset = models.Route.objects.all()
     serializer_class = RouteSerializer
 
+class Athlete_RouteViewSet(viewsets.ModelViewSet) :
+    queryset = models.Athlete_Route.objects.all()
+    serializer_class = Atlete_RouteSerializer
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.SimpleRouter()
 router.register(r'routes', RouteViewSet)
+router.register(r'athletes', Athlete_RouteViewSet)
 #urlpatterns = router.urls
 
 
