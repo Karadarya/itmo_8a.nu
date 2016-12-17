@@ -46,8 +46,8 @@ class RemarkSerializer(serializers.ModelSerializer) :
         fields = ('remark', 'cost')
 
 class Atlete_RouteSerializer(serializers.ModelSerializer) :
-    athlete = serializers.PrimaryKeyRelatedField(read_only=True)
-    route = serializers.PrimaryKeyRelatedField(read_only=True)
+    athlete_id = serializers.PrimaryKeyRelatedField(source='athlete', read_only=True)
+    route_id = serializers.PrimaryKeyRelatedField(source='route', read_only=True)
     remark = RemarkSerializer(read_only=True)
 
     class Meta:
