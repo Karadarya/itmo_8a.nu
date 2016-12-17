@@ -38,7 +38,7 @@ class RouteSerializer(serializers.ModelSerializer):
 class Athlete_InfoSerializer(serializers.ModelSerializer) :
     class Meta:
         model = models.Athlete_Info
-        exclude = ('athlete','score','position')
+        exclude = ('athlete',)#'score','position')
 
 class RemarkSerializer(serializers.ModelSerializer) :
     class Meta:
@@ -46,8 +46,8 @@ class RemarkSerializer(serializers.ModelSerializer) :
         fields = ('remark', 'cost')
 
 class Atlete_RouteSerializer(serializers.ModelSerializer) :
-    athlete = Athlete_InfoSerializer(read_only=True)
-    route = RouteSerializer(read_only=True)
+    athlete = serializers.PrimaryKeyRelatedField(read_only=True)
+    route = serializers.PrimaryKeyRelatedField(read_only=True)
     remark = RemarkSerializer(read_only=True)
 
     class Meta:
@@ -62,10 +62,17 @@ class RouteViewSet(viewsets.ModelViewSet):
 class Athlete_RouteViewSet(viewsets.ModelViewSet) :
     queryset = models.Athlete_Route.objects.all()
     serializer_class = Atlete_RouteSerializer
+
+class Athlete_InfoViewSet(viewsets.ModelViewSet) :
+    queryset = models.Athlete_Info.objects.all()
+    serializer_class = Athlete_InfoSerializer
+
+
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.SimpleRouter()
-router.register(r'routes', RouteViewSet)
-router.register(r'athletes', Athlete_RouteViewSet)
+router.register(r'api/routes', RouteViewSet)
+router.register(r'api/athletes', Athlete_InfoViewSet)
+router.register(r'api/athlete_routes', Athlete_RouteViewSet)
 #urlpatterns = router.urls
 
 
