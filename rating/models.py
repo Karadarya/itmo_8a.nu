@@ -63,23 +63,6 @@ class Route(models.Model):
         return self.name
 
 
-class Athlete_Route(models.Model):
-    athlete = models.ForeignKey(User, verbose_name='спортсмен')
-    route = models.ForeignKey(Route, verbose_name='трасса')
-    remark = models.ForeignKey(Remark, verbose_name='примечание')
-    date = models.DateTimeField(default=timezone.now, verbose_name='дата')
-    comment = models.TextField(blank=True, verbose_name='комментарий')
-    def __unicode__(self):
-        return "%s - %s" %(self.athlete.username, self.route.name)
-    def __str__(self):
-        return "%s - %s" %(self.athlete.username, self.route.name)
-    class Meta:
-        verbose_name='спортсмен_трасса'
-        verbose_name_plural='спортсмены_трассы'
-        ordering = ['-date']
-        unique_together = ("athlete", "route")
-
-
 class Period(models.Model):
     started = models.DateField(default=timezone.now, verbose_name='начало')
     current = models.BooleanField(default=False, verbose_name='текущий')
@@ -95,8 +78,27 @@ class Period(models.Model):
             return "%s.%s.%s - %s.%s.%s" %(self.started.day, self.started.month, self.started.year, self.finished.day, self.finished.month, self.finished.year)
         else:
             return "%s.%s.%s - now" %(self.started.day, self.started.month, self.started.year)
+
     class Meta:
         verbose_name='Период'
         verbose_name_plural='Период'
         ordering = ['-started']
         unique_together = ("started", "finished")
+
+
+class Athlete_Route(models.Model):
+    athlete = models.ForeignKey(User, verbose_name='спортсмен')
+    route = models.ForeignKey(Route, verbose_name='трасса')
+    remark = models.ForeignKey(Remark, verbose_name='примечание')
+    date = models.DateTimeField(default=timezone.now, verbose_name='дата')
+    comment = models.TextField(blank=True, verbose_name='комментарий')
+    period = models.ForeignKey(Period, verbose_name='период')#, default=Period.objects.filter(current=True))
+    def __unicode__(self):
+        return "%s - %s" %(self.athlete.username, self.route.name)
+    def __str__(self):
+        return "%s - %s" %(self.athlete.username, self.route.name)
+    class Meta:
+        verbose_name='спортсмен_трасса'
+        verbose_name_plural='спортсмены_трассы'
+        ordering = ['-date']
+        unique_together = ("athlete", "route", "period")

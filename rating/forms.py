@@ -11,7 +11,7 @@ from .models import Athlete_Route, Route, Athlete_Info
 class Athlete_Route_Form(ModelForm):
     class Meta:
         model = Athlete_Route
-        exclude = ('athlete',)
+        exclude = ('athlete','period')
 
 class Route_Form(ModelForm):
     class Meta:

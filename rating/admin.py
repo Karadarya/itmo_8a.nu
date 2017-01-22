@@ -17,7 +17,7 @@ class Route_Admin(admin.ModelAdmin):
     search_fields = ['name', 'description']
 
 class Athlete_Route_Admin(admin.ModelAdmin):
-    list_display = ('athlete', 'route', 'remark', 'date')
+    list_display = ('athlete', 'route', 'remark', 'date','period')
     list_order_by = ('-date',)
     search_fields = ['athlete', 'route']
     list_filter = ('route', 'athlete',)

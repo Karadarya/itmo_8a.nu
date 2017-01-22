@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render, render_to_resp
 from django.contrib.auth import login, authenticate
 from django.db import IntegrityError
 
-from .models import Athlete_Info, Athlete_Route, Route
+from .models import Athlete_Info, Athlete_Route, Route, Period
 from .forms import Athlete_Route_Form, RegisterForm, Route_Form, ProfileForm
 
 def welcome(request):
@@ -37,6 +37,10 @@ def add_route(request):
             if form.is_valid():
                 route = form.save(commit=False)
                 route.athlete = request.user
+                if (Period.objects.exclude(current=True).filter(finished__gt=route.date)) :
+                    route.period = Period.objects.exclude(current=True).filter(finished__gt=route.date).get(started__lt=route.date)
+                else :
+                    route.period = Period.objects.get(current=True)
                 route.save()
                 form.save_m2m()
                 return redirect('athlete_routes',
