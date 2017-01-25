@@ -1,5 +1,11 @@
+{% load rating_extras %}
+{% if route|rated %}
 <div class="container-fluid route-container">
   <div class="container-fluid route-header">
+{% else %}
+<div class="container-fluid route-container route-container-gray">
+  <div class="container-fluid route-header route-header-gray">
+{% endif %}
     <div class="row">
       <div class="col-lg-11 col-md-11 col-sm-11 col-xs-9" ><b>{{ route.route.name }}</b></div>
       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3">{{ route.route.grade }}</div>
