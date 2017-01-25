@@ -1,5 +1,5 @@
 {% extends "athlete.html" %}
-
+{% load rating_extras %}
 {% block content %}
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" ><a class="" href="{% url "athlete_profile" username=athlete.athlete.username%}">Профиль</a></li>
@@ -17,17 +17,18 @@
     {% endif %}
 </ul>
 
-
-<br>
 <ul class="list-unstyled">
-
-  {% for route in routes %}
-    <li>{% include "rating/route.html" %}</li>
-  {% empty %}
-    <li>Трасс пока нет :C </li>
+  {% for period in periods %}
+    {% if routes|period_list:period %}
+      <div class="period-header">{{ period }}</div>
+      <ul class="list-unstyled">
+        {% for route in routes|period_list:period %}
+          <li>{% include "rating/route.html" %}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
   {% endfor %}
-</ul>
-
+  </ul>
 
 
 {% endblock %}

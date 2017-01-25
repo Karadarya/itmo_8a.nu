@@ -100,5 +100,5 @@ class Athlete_Route(models.Model):
     class Meta:
         verbose_name='спортсмен_трасса'
         verbose_name_plural='спортсмены_трассы'
-        ordering = ['-date']
+        #ordering = ['-date']
         unique_together = ("athlete", "route", "period")

@@ -27,14 +27,14 @@
 
 {% block content %}
 
-<ul class="list-unstyled">
+      <ul class="list-unstyled">
+        {% for route in routes %}
+          <li class="">{% include "rating/route_list_route.html" %}</li>
+        {% empty %}
+          <li>Трасс пока нет :C </li>
+        {% endfor %}
+      </ul>
 
-  {% for route in routes %}
-    <li class="">{% include "rating/route_list_route.html" %}</li>
-  {% empty %}
-    <li>Трасс пока нет :C </li>
-  {% endfor %}
-</ul>
 
 
 {% endblock %}

@@ -25,8 +25,9 @@ def rating(request):
 
 def athlete_routes(request, username):
     athlete = get_object_or_404(Athlete_Info, athlete__username=username)
-    routes = Athlete_Route.objects.filter(athlete__username=username).order_by('-route__grade')
-    context = {'routes': routes, 'athlete': athlete}
+    routes = Athlete_Route.objects.filter(athlete__username=username).order_by('-remark__cost').order_by('-route__grade__cost')
+    periods = Period.objects.all()
+    context = {'routes': routes, 'athlete': athlete, 'periods': periods}
     return render(request, 'rating/athlete_routes.html', context)
 
 @login_required
