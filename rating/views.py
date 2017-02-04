@@ -113,29 +113,54 @@ def profile_edit(request, username):
     context = {'form': form, 'create': False}
     return render(request, 'rating/profile_edit.html', context)
 
-#doesn't work idk why
+#to be done. Maybe. Someday
 """
 @login_required
-def route_edit(request, id) :
-    route = get_object_or_404(Route, id=id)
-    if route.author != request.user and not request.user.is_superuser:
+def athlete_route_edit(request, route_id):
+    ath_route = get_object_or_404(Athlete_Route, athlete=request.user, route=route_id)
+    if profile.athlete != request.user and not request.user.is_superuser:
         raise PermissionDenied
-    if request.method == 'POST' :
-        form = Route_Form(instance=route, data=request.POST)
-        old_grade = form.data['grade']
+    if request.method == 'POST':
+        form = Athlete_Route_Form(instance=ath_route, data=request.POST)
         if form.is_valid():
-            new_grade = form.cleaned_data['grade']
+            form.save()
+            return redirect('athlete_routes', username=username)
+    else:
+        form = Athlete_Route_Form(instance=ath_route)
+    context = {'form': form, 'create': False}
+    return render(request, 'rating/athlete_route_edit.html', context)"""
+
+#doesn't work idk why
+
+@login_required
+#saves everything to route with id=10. WTF???
+def route_edit(request, id) :
+    #route = get_object_or_404(Route, pk=id)
+    #permission check
+    """if (request.user.last_name!="")|(request.user.first_name!=""):
+        author = request.user.last_name+" "+request.user.first_name
+    else:
+        author = request.user.username
+    if route.author != author :
+        raise PermissionDenied"""
+    if request.method == 'POST' :
+        route = get_object_or_404(Route, pk=id)
+        form = Route_Form( instance = route, data = request.POST)
+        #old_grade = form.data['grade']
+        if form.is_valid():
+            """new_grade = form.cleaned_data['grade']
             if old_grade != new_grade :
                 raise PermissionDenied
             else:
-                #if form.is_valid():
-                form.save()
-                return redirect('athlete_profile', username=User.username)
+                #if form.is_valid():"""
+            form.save()
+            return redirect('route_list')
     else:
-        form = Route_Form()
+        route = get_object_or_404(Route, id=id)
+        form = Route_Form(instance=route)
     context = {'form': form, 'create': False}
     return render(request, 'rating/route_edit.html', context)
-"""
+
 
 def athlete_profile(request, username):
     athlete = get_object_or_404(Athlete_Info, athlete__username=username)

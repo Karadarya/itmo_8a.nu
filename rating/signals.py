@@ -73,21 +73,50 @@ def new_athlete_signal(instance, **kwargs):
         p=Athlete_Info.objects.aggregate(Max('position'))
         Athlete_Info.objects.create(athlete=instance, score=0, position=p['position__max']+1)
 
+def recount(instance, case):
+    num_of_res=6
+    best = Athlete_Route.objects.filter(athlete=instance.athlete).filter(period=Period.objects.get(current=True)).order_by('-remark__cost').order_by('-route__grade__cost')[:num_of_res]
+    if case == "delete" :
+        if (instance in best):
+            new_best=Athlete_Route.objects.filter(athlete=instance.athlete).filter(period=Period.objects.get(current=True)).exclude(route=instance.route).order_by('-remark__cost').order_by('-route__grade__cost')[:num_of_res]
+            sum_points=new_best.aggregate(best_points=Sum(F('route__grade__cost')+F('remark__cost')))
+            #best_points=sum_points['best_points']
+            Athlete_Info.objects.filter(athlete=instance.athlete).update(score=sum_points['best_points'])
+            rating_update(instance.athlete, "down")
+
+    elif case == "add" :
+        if (instance in best):
+            sum_points=best.aggregate(best_points=Sum(F('route__grade__cost')+F('remark__cost')))
+            #best_points=sum_points['best_points']
+            Athlete_Info.objects.filter(athlete=instance.athlete).update(score=sum_points['best_points'])
+            rating_update(instance.athlete, "up")
+
+    elif case == "recount" :
+            sum_points=best.aggregate(best_points=Sum(F('route__grade__cost')+F('remark__cost')))
+            pre_score = Athlete_Info.objects.values_list('score', flat=True).get(athlete=instance.athlete)
+            if pre_score > sum_points :
+                way = "down"
+            elif pre_score < sum_points :
+                way = "up"
+            Athlete_Info.objects.filter(athlete=instance.athlete).update(score=sum_points['best_points'])
+            rating_update(instance.athlete, way)
+
 
 @receiver(pre_delete, sender=Athlete_Route)
 def del_old_points(instance, **kwargs):
     #ath = Athlete_Info.objects.filter(athlete=instance.athlete)
     #ath.update(score=F('score')-(instance.route.grade.cost+instance.remark.cost))
 
+    recount(instance, "delete")
     #shameless copy-paste
-    num_of_res=6
+    """num_of_res=6
     best = Athlete_Route.objects.filter(athlete=instance.athlete).filter(period=Period.objects.get(current=True)).order_by('-remark__cost').order_by('-route__grade__cost')[:num_of_res]
     if (instance in best):
         new_best=Athlete_Route.objects.filter(athlete=instance.athlete).filter(period=Period.objects.get(current=True)).exclude(route=instance.route).order_by('-remark__cost').order_by('-route__grade__cost')[:num_of_res]
         sum_points=new_best.aggregate(best_points=Sum(F('route__grade__cost')+F('remark__cost')))
         #best_points=sum_points['best_points']
         Athlete_Info.objects.filter(athlete=instance.athlete).update(score=sum_points['best_points'])
-    rating_update(instance.athlete, "down")
+    rating_update(instance.athlete, "down")"""
 
 
 """@receiver(post_save, sender=Athlete_Route)
@@ -98,30 +127,39 @@ def add_new_points(instance, created, **kwargs):
         rating_update(instance.athlete, "up")"""
 
 @receiver(post_save, sender=Athlete_Route)
-def add_new_points(instance, **kwargs):
-    #if ( created == True ):
+def add_new_points(instance, created, **kwargs):
+    if ( created == True ):
+        recount(instance, "add")
     #count_points(instance)
-    num_of_res=6
+    """num_of_res=6
     best = Athlete_Route.objects.filter(athlete=instance.athlete).filter(period=Period.objects.get(current=True)).order_by('-remark__cost').order_by('-route__grade__cost')[:num_of_res]
     if (instance in best):
         sum_points=best.aggregate(best_points=Sum(F('route__grade__cost')+F('remark__cost')))
         #best_points=sum_points['best_points']
         Athlete_Info.objects.filter(athlete=instance.athlete).update(score=sum_points['best_points'])
-    rating_update(instance.athlete, "up")
+    rating_update(instance.athlete, "up")"""
     #Should I order by remark__cost?
     """best = Athlete_Route.objects.filter(athlete=instance.athlete).filter(period=Period.objects.get(current=True)).order_by('-remark__cost').order_by('-route__grade__cost')[:num_of_res]
-    if (instance in best):
+    if (instance in best)
         sum_points=best.aggregate(best_points=Sum(F('route__grade__cost')+F('remark__cost')))
         #best_points=sum_points['best_points']
         Athlete_Info.objects.filter(athlete=instance.athlete).update(score=sum_points['best_points'])
         rating_update(instance.athlete, "up")"""
+
+@receiver(post_save, sender=Athlete_Route)
+def change_points(instance, created, **kwargs):
+    if ( created == False ) :
+        recount(instance, "recount")
+
 
 @receiver(post_save, sender=Route)
 def route_changed(instance, created, **kwargs):
     if ( created == False ):
         ath_routes=Athlete_Route.objects.filter(route=instance)
         for ath_route in ath_routes:
-            add_new_points(ath_route)
+            change_points(ath_route, False)
+
+
 
 @receiver(post_save, sender=Athlete_Info)
 def add_user_name(instance, **kwargs):

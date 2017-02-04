@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+#from model_utils import FieldTracker
 
 class Athlete_Info(models.Model):
     class Meta:
@@ -93,6 +94,7 @@ class Athlete_Route(models.Model):
     date = models.DateTimeField(default=timezone.now, verbose_name='дата')
     comment = models.TextField(blank=True, verbose_name='комментарий')
     period = models.ForeignKey(Period, verbose_name='период')#, default=Period.objects.filter(current=True))
+#    tracker=FieldTracker()
     def __unicode__(self):
         return "%s - %s" %(self.athlete.username, self.route.name)
     def __str__(self):
