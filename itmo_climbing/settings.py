@@ -142,3 +142,11 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
     #'PAGE_SIZE': 10,
 }
+
+#Media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+MEDIAFILES_DIRS = (
+    os.path.join(BASE_DIR, 'media'),
+)

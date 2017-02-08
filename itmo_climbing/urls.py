@@ -19,6 +19,9 @@ from django.contrib.auth.views import login, logout
 from django.core.urlresolvers import reverse_lazy
 from rating import views, models
 from rest_framework import routers, serializers, viewsets
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 
 # Serializers define the API representation.
@@ -77,6 +80,7 @@ router.register(r'api/athlete_routes', Athlete_RouteViewSet)
 
 
 urlpatterns = [
+    #url(r'^media/', )
     url(r'^admin/', admin.site.urls),
     #url(r'^api-get-routes/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^', include(router.urls)),
@@ -86,4 +90,4 @@ urlpatterns = [
     url(r'^logout/$', logout,
         {'next_page': reverse_lazy('rating')}, name='itmo_climbing_logout'),
     url(r'^$', views.welcome, name='welcome'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

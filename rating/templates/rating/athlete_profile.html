@@ -22,11 +22,24 @@
 
 
 <br>
-<ul class="list-group">
-  <li class="list-group-item"><b>Фамилия:</b> {{ athlete.last_name }}</li>
-  <li class="list-group-item"><b>Имя:</b> {{ athlete.first_name }}</li>
-  <li class="list-group-item"><b>Позиция в рейтинге:</b> <big>{{ athlete.position }}</big> (<i>{{athlete.score|floatformat}} баллов</i>) </li>
-</ul>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-4">
+      {% if athlete.picture%}
+        <img src="/media/{{ athlete.picture }}" class="profile-picture">
+      {% else %}
+        <img src="/media/profile_picture/ath.png" class="profile-picture">
+      {% endif %}
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-8 col-xs-8">
+      <ul class="list-group">
+        <li class="list-group-item"><b>Фамилия:</b> {{ athlete.last_name }}</li>
+        <li class="list-group-item"><b>Имя:</b> {{ athlete.first_name }}</li>
+        <li class="list-group-item"><b>Позиция в рейтинге:</b> <big>{{ athlete.position }}</big> (<i>{{athlete.score|floatformat}} баллов</i>) </li>
+      </ul>
+    </div>
+  </div>
+</div>
 
 
 {% endblock %}

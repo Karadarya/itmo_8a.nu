@@ -15,6 +15,7 @@ class Athlete_Info(models.Model):
     first_name = models.CharField(blank=True, max_length=200, verbose_name='имя')
     score = models.FloatField(verbose_name='баллы')
     position = models.PositiveIntegerField(verbose_name='место')
+    picture = models.ImageField(upload_to='profile_picture/', null=True, blank=True,verbose_name='фото')
     def __unicode__(self):
         return self.athlete.username
     def __str__(self):

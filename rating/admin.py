@@ -5,7 +5,7 @@ from django.contrib import admin
 from .models import Athlete_Info, Route, Grade, Remark, Athlete_Route, Period
 
 class Athlete_Info_Admin(admin.ModelAdmin):
-    list_display = ('position', 'athlete', 'first_name', 'last_name', 'score')
+    list_display = ('position', 'athlete', 'first_name', 'last_name', 'score', 'picture')
     list_order_by = ('position',)
     search_fields = ['athlete']
 
