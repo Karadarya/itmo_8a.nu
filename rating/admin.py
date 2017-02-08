@@ -15,6 +15,11 @@ class Route_Admin(admin.ModelAdmin):
     list_editable = ('is_active',)
     list_order_by = ('-created',)
     search_fields = ['name', 'description']
+    actions = ['inactivate']
+
+    def inactivate(self, request, queryset):
+        queryset.update(is_active=False)
+    inactivate.short_description = "Выбранные трассы скручены"
 
 class Athlete_Route_Admin(admin.ModelAdmin):
     list_display = ('athlete', 'route', 'remark', 'date','period')

@@ -25,7 +25,7 @@ from rest_framework import routers, serializers, viewsets
 class GradeSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Grade
-        fields = ('grade', 'cost')
+        fields = '__all__'#('grade', 'cost')
 
 class RouteSerializer(serializers.ModelSerializer):
     grade = GradeSerializer(read_only=True)
@@ -38,16 +38,16 @@ class RouteSerializer(serializers.ModelSerializer):
 class Athlete_InfoSerializer(serializers.ModelSerializer) :
     class Meta:
         model = models.Athlete_Info
-        exclude = ('athlete',)#'score','position')
+        exclude = ('score',)#exclude = ('athlete',)#'score','position')
 
 class RemarkSerializer(serializers.ModelSerializer) :
     class Meta:
         model = models.Remark
-        fields = ('remark', 'cost')
+        fields = '__all__'#fields = ('remark', 'cost')
 
 class Atlete_RouteSerializer(serializers.ModelSerializer) :
-    athlete_id = serializers.PrimaryKeyRelatedField(source='athlete', read_only=True)
-    route_id = serializers.PrimaryKeyRelatedField(source='route', read_only=True)
+    athlete_id = Athlete_InfoSerializer(read_only=True)#serializers.PrimaryKeyRelatedField(source='athlete', read_only=True)
+    route_id = RouteSerializer(read_only=True)#serializers.PrimaryKeyRelatedField(source='route', read_only=True)
     remark = RemarkSerializer(read_only=True)
 
     class Meta:
