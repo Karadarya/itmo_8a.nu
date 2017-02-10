@@ -13,7 +13,7 @@ class Athlete_Info(models.Model):
     athlete = models.ForeignKey(User, verbose_name='спортсмен')
     last_name = models.CharField(blank=True, max_length=200, verbose_name='фамилия')
     first_name = models.CharField(blank=True, max_length=200, verbose_name='имя')
-    score = models.FloatField(verbose_name='баллы')
+    score = models.FloatField(verbose_name='баллы', null=True)
     position = models.PositiveIntegerField(verbose_name='место')
     picture = models.ImageField(upload_to='profile_picture/', null=True, blank=True,verbose_name='фото')
     def __unicode__(self):

@@ -57,6 +57,10 @@ def add_route(request):
     context = {'form': form, 'create': True}
     return render(request, 'rating/add_route.html', context)
 
+def delete_route(request):
+    pass
+
+
 def register_user(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -104,9 +108,12 @@ def profile_edit(request, username):
     if profile.athlete != request.user and not request.user.is_superuser:
         raise PermissionDenied
     if request.method == 'POST':
-        form = ProfileForm(instance=profile, data=request.POST)
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
+            m = Athlete_Info.objects.get(athlete__username=username)
+            m.picture = form.cleaned_data['picture']
+            m.save()
             return redirect('athlete_profile', username=username)
     else:
         form = ProfileForm(instance=profile)
@@ -135,7 +142,7 @@ def athlete_route_edit(request, route_id):
 @login_required
 #saves everything to route with id=10. WTF???
 def route_edit(request, id) :
-    #route = get_object_or_404(Route, pk=id)
+    route = get_object_or_404(Route, pk=id)
     #permission check
     """if (request.user.last_name!="")|(request.user.first_name!=""):
         author = request.user.last_name+" "+request.user.first_name
@@ -144,21 +151,16 @@ def route_edit(request, id) :
     if route.author != author :
         raise PermissionDenied"""
     if request.method == 'POST' :
-        route = get_object_or_404(Route, pk=id)
+        #route = get_object_or_404(Route, pk=id)
         form = Route_Form( instance = route, data = request.POST)
         #old_grade = form.data['grade']
         if form.is_valid():
-            """new_grade = form.cleaned_data['grade']
-            if old_grade != new_grade :
-                raise PermissionDenied
-            else:
-                #if form.is_valid():"""
             form.save()
             return redirect('route_list')
     else:
         route = get_object_or_404(Route, id=id)
         form = Route_Form(instance=route)
-    context = {'form': form, 'create': False}
+    context = {'form': form, 'create': False, 'route': route}
     return render(request, 'rating/route_edit.html', context)
 
 
