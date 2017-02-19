@@ -94,9 +94,9 @@ def recount(instance, case):
     elif case == "recount" :
             sum_points=best.aggregate(best_points=Sum(F('route__grade__cost')+F('remark__cost')))
             pre_score = Athlete_Info.objects.values_list('score', flat=True).get(athlete=instance.athlete)
-            if pre_score > sum_points :
+            if pre_score > sum_points['best_points'] :
                 way = "down"
-            elif pre_score < sum_points :
+            elif pre_score < sum_points['best_points'] :
                 way = "up"
             Athlete_Info.objects.filter(athlete=instance.athlete).update(score=sum_points['best_points'])
             rating_update(instance.athlete, way)
