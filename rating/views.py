@@ -27,7 +27,8 @@ def athlete_routes(request, username):
     athlete = get_object_or_404(Athlete_Info, athlete__username=username)
     routes = Athlete_Route.objects.filter(athlete__username=username).order_by('-remark__cost').order_by('-route__grade__cost')
     periods = Period.objects.all()
-    context = {'routes': routes, 'athlete': athlete, 'periods': periods}
+    requestor = request.user
+    context = {'routes': routes, 'athlete': athlete, 'periods': periods, 'requestor':requestor}
     return render(request, 'rating/athlete_routes.html', context)
 
 @login_required
@@ -112,7 +113,11 @@ def new_route(request):
 def route_list(request):
     routes = Route.objects.all().filter(is_active=True).order_by('grade')
     comments = Athlete_Route.objects.filter(route__is_active=True).order_by('-date')
-    context = {'routes': routes, 'comments': comments}
+    if (request.user.last_name!="")|(request.user.first_name!=""):
+        requestor = request.user.last_name+" "+request.user.first_name
+    else:
+        requestor = request.user.username
+    context = {'routes': routes, 'comments': comments, 'requestor': requestor}
     return render(request, 'rating/route_list.html', context)
 
 @login_required

@@ -8,7 +8,18 @@
 {% endif %}
     <div class="row">
       <div class="col-lg-11 col-md-11 col-sm-11 col-xs-9" ><b>{{ route.route.name }}</b></div>
-      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3">{{ route.route.grade }}</div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-3">
+        <div class="row">
+        <div class="col-md-6">{{ route.route.grade }}</div>
+        {% if requestor == route.athlete %}
+        <div class="col-md-6" >
+          <a href="{% url "delete_route" route.id %}"><button type="button" class="close" aria-label="Close" style="margin-top: -5px;"data-toggle="tooltip" data-placement="top" title="Удалить ТОП"><span aria-hidden="true">&times;</span></button></a>
+          <!--<button type="button" data-toggle="tooltip" data-placement="top" title="Удалить ТОП" class="btn btn-link btn-sm" style="padding-top: 0px; color: grey;" aria-label="Left Align">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>--></div>
+        {% endif %}
+      </div>
+      </div>
     </div>
   </div>
 
