@@ -25,7 +25,7 @@ def rating(request):
 
 def athlete_routes(request, username):
     athlete = get_object_or_404(Athlete_Info, athlete__username=username)
-    routes = Athlete_Route.objects.filter(athlete__username=username).order_by('-remark__cost').order_by('-route__grade__cost')
+    routes = Athlete_Route.objects.filter(athlete__username=username).order_by('-route__grade__cost','-remark__cost')
     periods = Period.objects.all()
     requestor = request.user
     context = {'routes': routes, 'athlete': athlete, 'periods': periods, 'requestor':requestor}
