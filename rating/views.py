@@ -8,7 +8,7 @@ from django.contrib.auth import login, authenticate
 from django.db import IntegrityError
 
 from .models import Athlete_Info, Athlete_Route, Route, Period
-from .forms import Athlete_Route_Form, RegisterForm, Route_Form, ProfileForm
+from .forms import Athlete_Route_Form, RegisterForm, Route_Form, ProfileForm, Delete_Athlete_Route_Form
 
 def welcome(request):
     context = {}
@@ -57,8 +57,21 @@ def add_route(request):
     context = {'form': form, 'create': True}
     return render(request, 'rating/add_route.html', context)
 
-def delete_route(request):
-    pass
+@login_required
+def delete_route(request, id):
+    ath_route = get_object_or_404( Athlete_Route, id=id)
+    if ath_route.athlete != request.user and not request.user.is_superuser:
+        raise PermissionDenied
+    if request.method == 'POST':
+        form = Delete_Athlete_Route_Form(data=request.POST, instance=ath_route)
+        if form.is_valid():
+            ath_route.delete()
+            return redirect('athlete_routes',
+                username=request.user.username)
+    else:
+        form = Delete_Athlete_Route_Form(instance=ath_route)
+    context = {'form': form, 'create': False, 'ath_route': ath_route}
+    return render(request, 'rating/delete_route.html', context)
 
 
 def register_user(request):

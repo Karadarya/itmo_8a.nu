@@ -27,3 +27,8 @@ class ProfileForm(ModelForm):
     class Meta:
         model = Athlete_Info
         exclude = ('athlete', 'score', 'position')
+
+class Delete_Athlete_Route_Form(forms.ModelForm):
+    class Meta:
+        model = Athlete_Route
+        fields = []

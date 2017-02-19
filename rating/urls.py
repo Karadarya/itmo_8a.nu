@@ -4,6 +4,7 @@ from rating import views
 
 urlpatterns = [
     url(r'^athlete/(?P<username>[\S]+\w)/routes$', views.athlete_routes, name='athlete_routes'),
+    url(r'^athlete/routes/(?P<id>\d+)/delete$', views.delete_route, name='delete_route'),
     #url(r'^athlete/([\S]+\w)/routes/(?P<route_id>\d+)/edit$', views.athlete_route_edit, name='athlete_route_edit'),
     url(r'^routes/add$', views.add_route, name='add_route'),
     url(r'^routes/new$', views.new_route, name='new_route'),

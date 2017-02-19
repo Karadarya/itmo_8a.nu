@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+  Удалить ТОП
+{% endblock %}
+
+{% block heading %}
+  <h2>
+    Вы уверены?
+  </h2>
+{% endblock %}
+
+{% block content %}
+  <form action="{% url "delete_route" ath_route.id %}" method="post" accept-charset="utf-8">
+    <h4>Вы уверены, что хотите удалить ТОП на трассе {{ ath_route.route.name }}?<h4>
+    {{ form|crispy }}
+    {% csrf_token %}
+    <br>
+    <p><input type="submit" class="btn btn-danger" value="Удалить">  <a href="{% url "athlete_routes" username=request.user.username %}" class="btn btn-default">Отмена</a></p>
+
+  </form>
+  <div></div>
+{% endblock %}
