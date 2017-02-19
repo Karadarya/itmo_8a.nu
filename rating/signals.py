@@ -99,7 +99,8 @@ def recount(instance, case):
             elif pre_score < sum_points['best_points'] :
                 way = "up"
             Athlete_Info.objects.filter(athlete=instance.athlete).update(score=sum_points['best_points'])
-            rating_update(instance.athlete, way)
+            if (way):
+                rating_update(instance.athlete, way)
 
 
 @receiver(pre_delete, sender=Athlete_Route)
