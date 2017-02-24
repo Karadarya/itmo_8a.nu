@@ -74,12 +74,12 @@ class Period(models.Model):
         if self.finished:
             return "%s.%s.%s - %s.%s.%s" %(self.started.day, self.started.month, self.started.year, self.finished.day, self.finished.month, self.finished.year)
         else:
-            return "%s.%s.%s - now" %(self.started.day, self.started.month, self.started.year)
+            return "%s.%s.%s - сейчас" %(self.started.day, self.started.month, self.started.year)
     def __unicode__(self):
         if self.finished:
             return "%s.%s.%s - %s.%s.%s" %(self.started.day, self.started.month, self.started.year, self.finished.day, self.finished.month, self.finished.year)
         else:
-            return "%s.%s.%s - now" %(self.started.day, self.started.month, self.started.year)
+            return "%s.%s.%s - сейчас" %(self.started.day, self.started.month, self.started.year)
 
     class Meta:
         verbose_name='Период'
