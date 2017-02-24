@@ -6,6 +6,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render, render_to_response
 from django.contrib.auth import login, authenticate
 from django.db import IntegrityError
+from django.db.models import Sum, F
 
 from .models import Athlete_Info, Athlete_Route, Route, Period
 from .forms import Athlete_Route_Form, RegisterForm, Route_Form, ProfileForm, Delete_Athlete_Route_Form
@@ -25,7 +26,7 @@ def rating(request):
 
 def athlete_routes(request, username):
     athlete = get_object_or_404(Athlete_Info, athlete__username=username)
-    routes = Athlete_Route.objects.filter(athlete__username=username).order_by('-route__grade__cost','-remark__cost')
+    routes = Athlete_Route.objects.filter(athlete__username=username).annotate(sum=Sum(F('route__grade__cost')+F('remark__cost'))).order_by('-sum')
     periods = Period.objects.all()
     requestor = request.user
     context = {'routes': routes, 'athlete': athlete, 'periods': periods, 'requestor':requestor}
@@ -113,10 +114,12 @@ def new_route(request):
 def route_list(request):
     routes = Route.objects.all().filter(is_active=True).order_by('grade')
     comments = Athlete_Route.objects.filter(route__is_active=True).order_by('-date')
-    if (request.user.last_name!="")|(request.user.first_name!=""):
-        requestor = request.user.last_name+" "+request.user.first_name
-    else:
-        requestor = request.user.username
+    if (request.user.is_active):
+        if (request.user.last_name!="")|(request.user.first_name!=""):
+            requestor = request.user.last_name+" "+request.user.first_name
+        else:
+            requestor = request.user.username
+    else: requestor = ""
     context = {'routes': routes, 'comments': comments, 'requestor': requestor}
     return render(request, 'rating/route_list.html', context)
 

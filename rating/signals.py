@@ -75,10 +75,10 @@ def new_athlete_signal(instance, **kwargs):
 
 def recount(instance, case):
     num_of_res=6
-    best = Athlete_Route.objects.filter(athlete=instance.athlete).filter(period=Period.objects.get(current=True)).order_by('-route__grade__cost','-remark__cost')[:num_of_res]
+    best = Athlete_Route.objects.filter(athlete=instance.athlete).filter(period=Period.objects.get(current=True)).annotate(sum=Sum(F('route__grade__cost')+F('remark__cost'))).order_by('-sum')[:num_of_res]
     if case == "delete" :
         if (instance in best):
-            new_best=Athlete_Route.objects.filter(athlete=instance.athlete).filter(period=Period.objects.get(current=True)).exclude(route=instance.route).order_by('-route__grade__cost','-remark__cost')[:num_of_res]
+            new_best=Athlete_Route.objects.filter(athlete=instance.athlete).filter(period=Period.objects.get(current=True)).exclude(route=instance.route).annotate(sum=Sum(F('route__grade__cost')+F('remark__cost'))).order_by('-sum')[:num_of_res]
             sum_points=new_best.aggregate(best_points=Sum(F('route__grade__cost')+F('remark__cost')))
             #best_points=sum_points['best_points']
             Athlete_Info.objects.filter(athlete=instance.athlete).update(score=sum_points['best_points'])
