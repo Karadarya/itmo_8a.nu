@@ -30,7 +30,7 @@ class RegisterForm(UserCreationForm) :
 class ProfileForm(ModelForm):
     class Meta:
         model = Athlete_Info
-        exclude = ('athlete', 'score', 'position')
+        exclude = ('athlete', 'score', 'position', 'picture')
 
 class Delete_Athlete_Route_Form(forms.ModelForm):
     class Meta:

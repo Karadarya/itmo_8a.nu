@@ -133,7 +133,8 @@ def profile_edit(request, username):
         if form.is_valid():
             form.save()
             m = Athlete_Info.objects.get(athlete__username=username)
-            m.picture = form.cleaned_data['picture']
+            #!!! return when implement profile photos
+            #m.picture = form.cleaned_data['picture']
             m.save()
             return redirect('athlete_profile', username=username)
     else:
