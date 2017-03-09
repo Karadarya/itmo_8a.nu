@@ -13,6 +13,10 @@ class Athlete_Route_Form(ModelForm):
         model = Athlete_Route
         exclude = ('athlete','period')
 
+    def __init__(self,**kwargs):
+        super(Athlete_Route_Form, self).__init__(**kwargs)
+        self.fields['route'].queryset = Route.objects.filter(is_active=True).order_by('grade__cost')
+
 class Route_Form(ModelForm):
     class Meta:
         model = Route
