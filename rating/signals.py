@@ -79,9 +79,9 @@ def recount(instance, case):
     if case == "delete" :
         if (instance in best):
             new_best=Athlete_Route.objects.filter(athlete=instance.athlete).filter(period=Period.objects.get(current=True)).exclude(route=instance.route).annotate(sum=Sum(F('route__grade__cost')+F('remark__cost'))).order_by('-sum')[:num_of_res]
-            if ( new_best != None ):
-                sum_points=new_best.aggregate(best_points=Sum(F('route__grade__cost')+F('remark__cost')))
-                #best_points=sum_points['best_points']
+
+            sum_points=new_best.aggregate(best_points=Sum(F('route__grade__cost')+F('remark__cost')))
+            if ( sum_points['best_points'] != None ):    #best_points=sum_points['best_points']
                 Athlete_Info.objects.filter(athlete=instance.athlete).update(score=sum_points['best_points'])
             else:
                 Athlete_Info.objects.filter(athlete=instance.athlete).update(score=0)
